@@ -1,0 +1,88 @@
+{
+  "name": "react-custom-switcher",
+  "type": "module",
+  "description": "TBD",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "typings": "lib/index.d.ts",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "innrVoice <innrvoice@icloud.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/innrvoice/react-custom-switcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/innrvoice/react-custom-switcher.git/issues"
+  },
+  "scripts": {
+    "build": "rimraf lib && rollup -c rollup.config.js",
+    "lint": "eslint --ignore-pattern '*.d.ts' --ignore-pattern '*.test.*' --ext ts,tsx src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@storybook/addon-actions": "^7.4.3",
+    "@storybook/addon-essentials": "^7.4.3",
+    "@storybook/addon-interactions": "^7.4.3",
+    "@storybook/addon-links": "^7.4.3",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.4.3",
+    "@storybook/react": "^7.4.3",
+    "@storybook/react-vite": "^7.4.3",
+    "@storybook/testing-library": "^0.2.1",
+    "@types/node": "^20.6.3",
+    "@types/react": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.14",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.29.2",
+    "rollup-plugin-import-assertions": "^0.5.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.35.0",
+    "storybook": "^7.4.3",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  },
+  "keywords": [
+    "react",
+    "switcher",
+    "toggler"
+  ],
+  "files": [
+    "lib"
+  ],
+  "volta": {
+    "node": "18.16.1"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  },
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.16.4",
+    "react-jss": "^10.10.0"
+  }
+}

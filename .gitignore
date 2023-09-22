@@ -1,0 +1,8 @@
+.vscode
+!.vscode/launch.json
+yarn-error.log
+.build
+node_modules
+coverage
+lib
+.DS_Store
