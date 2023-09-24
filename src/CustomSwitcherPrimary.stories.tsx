@@ -72,13 +72,3 @@ PrimaryDisabled.args = {
 };
 
 PrimaryDisabled.parameters = { layout: 'fullscreen' };
-
-export const PrimaryWithNoValue = Template.bind({});
-
-PrimaryWithNoValue.args = {
-  options: optionsPrimary,
-  containerWidth: 300,
-  callback: action('callback'),
-};
-
-PrimaryWithNoValue.parameters = { layout: 'fullscreen' };

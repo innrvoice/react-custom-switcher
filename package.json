@@ -82,7 +82,6 @@
   },
   "dependencies": {
     "clsx": "^2.0.0",
-    "framer-motion": "^10.16.4",
     "react-jss": "^10.10.0"
   }
 }

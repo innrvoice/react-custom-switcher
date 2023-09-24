@@ -1,10 +1,17 @@
 import React from 'react';
 import useStyles from './CustomSwitcher.styles';
 import { DEFAULT_SCALE_WHILE_DRAG } from './CustomSwitcher.constants';
-import { motion, useAnimationControls } from 'framer-motion';
 import clsx from 'clsx';
-import { determineColor, determineScale, determineSwitchSize } from './CustomSwitcher.utils';
-import { ICustomSwitcherProps } from './CustomSwitcher.types';
+import {
+  determineColor,
+  determineScale,
+  determineSwitchSize,
+  checkIfMobileOrTablet,
+  applyConstraints,
+  enableScroll,
+  disableScroll,
+} from './CustomSwitcher.utils';
+import { CustomSwitcherOption, ICustomSwitcherProps } from './CustomSwitcher.types';
 
 export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   options,
@@ -18,40 +25,29 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   callback,
 }) => {
   const actualSwitchSize = determineSwitchSize(switchSize, variant);
+  const isMobileOrTablet = React.useMemo(() => checkIfMobileOrTablet(), []);
   const classes = useStyles({
     switchSize: actualSwitchSize,
     containerWidth,
     cssOverrides,
   });
   const constraintsRef = React.useRef<HTMLDivElement>(null);
-  const sliderRef = React.useRef<HTMLDivElement>(null);
-  const rootRef = React.useRef<HTMLDivElement>(null);
+  const draggableRef = React.useRef<HTMLDivElement>(null);
 
   const [currentValue, setCurrentValue] = React.useState(value);
   const [transitionEnabled, setTransitionEnabled] = React.useState(false);
   const [isDragging, setIsDragging] = React.useState(false);
 
-  const animationControls = useAnimationControls();
+  const [initialXCoord, setInitialXCoord] = React.useState<number | undefined>();
+  const [translate, setTranslate] = React.useState(0);
+  const [initialPosition, setInitialPosition] = React.useState(0);
 
   const DIVISION_LENGTH = Math.ceil((containerWidth - actualSwitchSize) / (options.length - 1));
 
-  const handleDragEnd = () => {
-    if (sliderRef.current) {
-      const translateXvalue = sliderRef.current.style.transform.match(/translateX\(([-0-9.]+)/i);
-      if (translateXvalue) {
-        const translateXValueRounded = Math.round(parseFloat(translateXvalue[1]));
-
-        const division = Math.abs(Math.round(translateXValueRounded / DIVISION_LENGTH));
-
-        animationControls.set({
-          x: division * DIVISION_LENGTH,
-        });
-
-        setCurrentValue(options[division].value);
-        callback(options[division].value);
-        setTransitionEnabled(true);
-      }
-    }
+  const handleDragEnd = (division: number) => {
+    setCurrentValue(options[division].value);
+    callback(options[division].value);
+    setTransitionEnabled(true);
     setIsDragging(false);
   };
 
@@ -74,56 +70,140 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     const currentValueIndex = options.findIndex((option) => option.value === currentValue);
 
     if (currentValueIndex >= 0) {
-      animationControls.start({
-        x: DIVISION_LENGTH * currentValueIndex,
-        transition: transitionEnabled ? { duration: 0.25 } : { duration: 0 },
-        backgroundColor:
-          variant === 'primary'
-            ? determineColor(options[currentValueIndex].color, disabled)
-            : undefined,
-        borderColor:
-          variant === 'secondary'
-            ? determineColor(options[currentValueIndex].color, disabled)
-            : undefined,
-      });
+      setTranslate(DIVISION_LENGTH * currentValueIndex);
+      setInitialPosition(DIVISION_LENGTH * currentValueIndex);
     }
-  }, [
-    currentValue,
-    disabled,
-    options,
-    variant,
-    DIVISION_LENGTH,
-    transitionEnabled,
-    animationControls,
-  ]);
+  }, [currentValue, options, DIVISION_LENGTH]);
+
+  React.useEffect(() => {
+    const listener = (event: MouseEvent) => {
+      if (event.relatedTarget == null) {
+        enableScroll(classes.stopScrolling, isMobileOrTablet);
+        const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
+        setInitialPosition(division * DIVISION_LENGTH);
+        handleDragEnd(division);
+        setIsDragging(false);
+      }
+    };
+    document.addEventListener('mouseout', listener);
+
+    return () => document.removeEventListener('mouseout', listener);
+  }, [translate, DIVISION_LENGTH, handleDragEnd, isMobileOrTablet]);
+
+  React.useEffect(() => {
+    const listener = () => {
+      const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
+      setTranslate(division * DIVISION_LENGTH);
+      enableScroll(classes.stopScrolling, isMobileOrTablet);
+      setInitialPosition(division * DIVISION_LENGTH);
+      handleDragEnd(division);
+      setIsDragging(false);
+    };
+    if (isMobileOrTablet) {
+      document.body.addEventListener('touchend', listener);
+      return () => document.body.removeEventListener('touchend', listener);
+    } else {
+      document.body.addEventListener('pointerup', listener);
+      return () => document.body.removeEventListener('pointerup', listener);
+    }
+  }, [translate, DIVISION_LENGTH, handleDragEnd, isMobileOrTablet]);
+
+  React.useEffect(() => {
+    const touchMoveListener = (event: TouchEvent) => {
+      event.preventDefault();
+      handleDragStart();
+      if (draggableRef.current && constraintsRef.current) {
+        const translate = initialPosition + (event.touches[0].clientX - initialXCoord!);
+        setTranslate(
+          applyConstraints(
+            translate,
+            constraintsRef.current.offsetWidth,
+            draggableRef.current.offsetWidth,
+          ),
+        );
+      }
+    };
+
+    const pointerMoveListener = (event: PointerEvent) => {
+      event.preventDefault();
+      handleDragStart();
+      if (draggableRef.current && constraintsRef.current) {
+        const translate = initialPosition + (event.clientX - initialXCoord!);
+        setTranslate(
+          applyConstraints(
+            translate,
+            constraintsRef.current.offsetWidth,
+            draggableRef.current.offsetWidth,
+          ),
+        );
+      }
+    };
+
+    if (isDragging) {
+      if (isMobileOrTablet) {
+        document.body.addEventListener('touchmove', touchMoveListener);
+      } else {
+        document.body.addEventListener('pointermove', pointerMoveListener);
+      }
+    }
+
+    return () => {
+      document.body.removeEventListener('touchmove', touchMoveListener);
+      document.body.removeEventListener('pointermove', pointerMoveListener);
+    };
+  }, [isDragging, constraintsRef, draggableRef]);
+
+  const handlePointerDown = (event: React.PointerEvent) => {
+    disableScroll(classes.stopScrolling, isMobileOrTablet);
+    setIsDragging(true);
+    setInitialXCoord(event.clientX);
+  };
+
+  const handleTouchStart = (event: React.TouchEvent) => {
+    disableScroll(classes.stopScrolling, isMobileOrTablet);
+    setIsDragging(true);
+    setInitialXCoord(event.touches[0].clientX);
+  };
+
+  const findColor = (value: string, options: CustomSwitcherOption[]) => {
+    const color = options.find((option) => option.value === value)?.color;
+    return color;
+  };
 
   return (
-    <div className={classes.root} ref={rootRef}>
+    <div className={classes.root}>
       <div className={classes.container} ref={constraintsRef}>
-        <motion.div
-          transition={{ ease: 'easeOut', duration: 0.2 }}
-          ref={sliderRef}
-          className={clsx(classes.switch, {
-            [classes.switchPrimary]: variant === 'primary',
-            [classes.switchSecondary]: variant === 'secondary',
-            [classes.grabbing]: isDragging,
-            [classes.switchDisabledPrimary]: disabled && variant === 'primary',
-            [classes.switchDisabledSecondary]: disabled && variant === 'secondary',
-            [classes.defaultDisabledCursor]: disabled,
-            [classes.switchOverride]: cssOverrides.switch,
+        <div
+          className={clsx(classes.draggable, {
+            [classes.transition]: transitionEnabled,
           })}
-          drag={!disabled ? 'x' : false}
-          whileDrag={{
-            scale: determineScale(scaleWhileDrag),
+          ref={draggableRef}
+          style={{
+            transform: `translateX(${translate}px)`,
           }}
-          dragConstraints={constraintsRef}
-          dragElastic={0}
-          dragMomentum={false}
-          onDragEnd={handleDragEnd}
-          onDragStart={handleDragStart}
-          animate={animationControls}
-        />
-
+          onPointerDown={!isMobileOrTablet && !disabled ? handlePointerDown : undefined}
+          onTouchStart={isMobileOrTablet && !disabled ? handleTouchStart : undefined}>
+          <div
+            className={clsx(classes.switch, {
+              [classes.switchPrimary]: variant === 'primary',
+              [classes.switchSecondary]: variant === 'secondary',
+              [classes.grabbing]: isDragging,
+              [classes.switchDisabledPrimary]: disabled && variant === 'primary',
+              [classes.switchDisabledSecondary]: disabled && variant === 'secondary',
+              [classes.defaultDisabledCursor]: disabled,
+              [classes.switchOverride]: cssOverrides.switch,
+            })}
+            style={{
+              transform: isDragging ? `scale(${determineScale(scaleWhileDrag)})` : 'scale(1)',
+              ...(variant === 'primary'
+                ? { backgroundColor: determineColor(findColor(currentValue, options), disabled) }
+                : undefined),
+              ...(variant === 'secondary'
+                ? { borderColor: determineColor(findColor(currentValue, options), disabled) }
+                : undefined),
+            }}
+          />
+        </div>
         <div className={classes.divisionsWrap}>
           <div
             className={clsx(classes.divLine, {

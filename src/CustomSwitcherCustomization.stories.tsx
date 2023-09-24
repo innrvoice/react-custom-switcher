@@ -129,6 +129,9 @@ const tipCSSOverrides: CSSOverrides = {
     height: 13,
     borderRadius: 10,
   },
+
+  cursorGrab: 'pointer',
+  cursorGrabbing: 'pointer  ',
 };
 
 export const Tip = Template.bind({});
@@ -192,8 +195,8 @@ const impressionsCSSOverrides: CSSOverrides = {
   },
   division: {
     border: '1px solid #ccc',
-    width: 40,
-    height: 40,
+    width: 41,
+    height: 41,
     borderRadius: '50%',
     backgroundColor: '#fff',
   },

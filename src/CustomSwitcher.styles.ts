@@ -43,13 +43,17 @@ export default createUseStyles<string, JSSProps>(
       width: switchSize,
       height: switchSize,
       borderRadius: '50%',
-      zIndex: 1,
       cursor: cssOverrides.cursorGrab ? cssOverrides.cursorGrab : 'grab',
       opacity: 1,
-      transition: 'opacity 150ms ease-in',
-      pointerEvents: 'auto',
+      transition: 'transform 100ms ease-in, border-color 0.4s, background-color 0.4s',
+      pointerEvents: 'all',
       boxSizing: 'border-box',
     }),
+
+    draggable: {
+      position: 'absolute',
+      zIndex: 1,
+    },
 
     switchOverride: ({ cssOverrides }) => ({
       ...cssOverrides.switch,
@@ -76,7 +80,7 @@ export default createUseStyles<string, JSSProps>(
     }),
 
     transition: {
-      transition: 'transform 0.6s',
+      transition: 'transform 100ms ease-out',
     },
 
     divisionsWrap: {
@@ -179,7 +183,12 @@ export default createUseStyles<string, JSSProps>(
     }),
 
     defaultDisabledCursor: {
-      cursor: 'default',
+      cursor: 'default !important',
+    },
+
+    stopScrolling: {
+      height: '100%',
+      overflow: 'hidden',
     },
   },
   {
