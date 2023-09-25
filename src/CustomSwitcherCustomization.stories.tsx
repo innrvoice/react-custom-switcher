@@ -16,7 +16,23 @@ export default {
         { name: 'dark', value: '#111111' },
       ],
     },
+    layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: 'Roboto, sans-serif',
+        }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta;
 
 const Template: StoryFn<typeof CustomSwitcher> = (args) => <CustomSwitcher {...args} />;
@@ -60,8 +76,6 @@ Emojis.args = {
   value: 'hm',
   callback: action('callback'),
 };
-
-Emojis.parameters = { layout: 'fullscreen' };
 
 // Tip Example
 
@@ -145,8 +159,6 @@ Tip.args = {
   scaleWhileDrag: false,
 };
 
-Tip.parameters = { layout: 'fullscreen' };
-
 // Impressions Example
 
 const optionsImpressions = [
@@ -172,7 +184,7 @@ const optionsImpressions = [
     color: '#014f9d',
   },
   {
-    label: '100k',
+    label: '100K',
     value: '100000',
     color: '#005cb7',
   },
@@ -215,4 +227,93 @@ Impressions.args = {
   callback: action('callback'),
 };
 
-Impressions.parameters = { layout: 'fullscreen' };
+// Material UI Like Example
+
+const optionsMui = [
+  {
+    value: 'off',
+    color: '#7c00c8',
+  },
+  {
+    value: 'on',
+    color: '#b336ff',
+  },
+];
+
+const muiCSSOverrides: CSSOverrides = {
+  divisionLine: {
+    height: 13,
+    borderRadius: 6.5,
+    backgroundColor: '#e5b9ff',
+  },
+  division: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+};
+
+export const MaterialUILike = Template.bind({});
+
+MaterialUILike.args = {
+  options: optionsMui,
+  variant: 'primary',
+  containerWidth: 65,
+  scaleWhileDrag: false,
+  switchSize: 30,
+  value: 'on',
+  cssOverrides: muiCSSOverrides,
+  callback: action('callback'),
+};
+
+MaterialUILike.parameters = { layout: 'fullscreen' };
+
+// IOS Like Example
+
+const optionsIos = [
+  {
+    value: 'off',
+    color: '#aaa',
+  },
+  {
+    value: 'on',
+    color: '#111',
+  },
+];
+
+const iosCSSOverrides: CSSOverrides = {
+  divisionLine: {
+    visibility: 'hidden',
+  },
+  division: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+};
+
+const IosTemplate: StoryFn<typeof CustomSwitcher> = (args) => (
+  <div
+    style={{
+      width: 80,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: '#ddd',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+    <CustomSwitcher {...args} />
+  </div>
+);
+
+export const IOSLike = IosTemplate.bind({});
+
+IOSLike.args = {
+  options: optionsIos,
+  variant: 'primary',
+  containerWidth: 70,
+  scaleWhileDrag: false,
+  switchSize: 30,
+  value: 'on',
+  cssOverrides: iosCSSOverrides,
+  callback: action('callback'),
+};

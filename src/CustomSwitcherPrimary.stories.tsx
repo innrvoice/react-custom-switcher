@@ -15,7 +15,23 @@ export default {
         { name: 'dark', value: '#111111' },
       ],
     },
+    layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: 'Roboto, sans-serif',
+        }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta;
 
 const Template: StoryFn<typeof CustomSwitcher> = (args) => <CustomSwitcher {...args} />;
@@ -59,8 +75,6 @@ Primary.args = {
   callback: action('callback'),
 };
 
-Primary.parameters = { layout: 'fullscreen' };
-
 export const PrimaryDisabled = Template.bind({});
 
 PrimaryDisabled.args = {
@@ -70,5 +84,3 @@ PrimaryDisabled.args = {
   value: optionsPrimary[2].value,
   callback: action('callback'),
 };
-
-PrimaryDisabled.parameters = { layout: 'fullscreen' };
