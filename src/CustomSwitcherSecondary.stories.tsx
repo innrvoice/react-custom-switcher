@@ -15,7 +15,23 @@ export default {
         { name: 'dark', value: '#111111' },
       ],
     },
+    layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: 'Roboto, sans-serif',
+        }}>
+        <Story />
+      </div>
+    ),
+  ],
 } as Meta;
 
 const Template: StoryFn<typeof CustomSwitcher> = (args) => <CustomSwitcher {...args} />;
@@ -26,22 +42,22 @@ const optionsSecondary = [
   {
     label: '10',
     value: '10',
-    color: '#ff8a00',
+    color: '#b55a01',
   },
   {
     label: '20',
     value: '20',
-    color: '#ff8a00',
+    color: '#bd5d01',
   },
   {
     label: '30',
     value: '30',
-    color: '#ff8a00',
+    color: '#da6c01',
   },
   {
     label: '40',
     value: '40',
-    color: '#ff8a00',
+    color: '#f17802',
   },
   {
     label: '50',
@@ -60,8 +76,6 @@ Secondary.args = {
   callback: action('callback'),
 };
 
-Secondary.parameters = { layout: 'fullscreen' };
-
 export const SecondaryDisabled = Template.bind({});
 
 SecondaryDisabled.args = {
@@ -72,5 +86,3 @@ SecondaryDisabled.args = {
   variant: 'secondary',
   callback: action('callback'),
 };
-
-SecondaryDisabled.parameters = { layout: 'fullscreen' };
