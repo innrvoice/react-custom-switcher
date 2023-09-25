@@ -146,6 +146,99 @@ const demoCSSOverrides: CSSOverrides = {
   },
 };
 
+const authors = [
+  <span key={'author-1'}>
+    Photo by{' '}
+    <a
+      href="https://unsplash.com/@agk42?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Alex Knight
+    </a>{' '}
+    on{' '}
+    <a
+      href="https://unsplash.com/photos/5-GNa303REg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Unsplash
+    </a>
+  </span>,
+  <span key={'author-2'}>
+    Photo by{' '}
+    <a
+      href="https://unsplash.com/@miyatankun?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Takashi Miyazaki
+    </a>{' '}
+    on{' '}
+    <a
+      href="https://unsplash.com/photos/64ajtpEzlYc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Unsplash
+    </a>
+  </span>,
+  <span key={'author-3'}>
+    Photo by{' '}
+    <a
+      href="https://unsplash.com/@sorasagano?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Sora Sagano
+    </a>{' '}
+    on{' '}
+    <a
+      href="https://unsplash.com/photos/8sOZJ8JF0S8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Unsplash
+    </a>
+  </span>,
+  <span key={'author-4'}>
+    Photo by{' '}
+    <a
+      href="https://unsplash.com/@jezar?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Jezael Melgoza
+    </a>{' '}
+    on{' '}
+    <a
+      href="https://unsplash.com/photos/To5wAJDt1IM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Unsplash
+    </a>
+  </span>,
+  <span key={'author-5'}>
+    Photo by{' '}
+    <a
+      href="https://unsplash.com/@agk42?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Alex Knight
+    </a>{' '}
+    on{' '}
+    <a
+      href="https://unsplash.com/photos/DpPutJwgyW8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+      target="_blank"
+      rel="noreferrer"
+      style={{ color: '#fff' }}>
+      Unsplash
+    </a>
+  </span>,
+];
+
 const Template: StoryFn<typeof CustomSwitcher> = () => {
   const [currentImageValue, setCurrentImageValue] = React.useState(0);
   const [play, setPlay] = React.useState(false);
@@ -291,6 +384,22 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           callback={handleSelectImage}
           scaleWhileDrag={false}
         />
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          padding: 4,
+          borderRadius: 4,
+          backgroundColor: '#111',
+          opacity: 0.85,
+          textAlign: 'center',
+          color: '#fff',
+          fontSize: 12,
+        }}>
+        {authors[currentImageValue]}
       </div>
     </div>
   );
