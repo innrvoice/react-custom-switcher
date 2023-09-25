@@ -108,8 +108,10 @@ export default createUseStyles<string, JSSProps>(
         transform: 'translate3d(-50%, -50%, 0)',
         position: 'absolute',
         content: '""',
-        width: ({ switchSize }: { switchSize: number }) => switchSize + 10,
-        height: ({ switchSize }: { switchSize: number }) => switchSize + 10,
+        width: ({ switchSize }: { switchSize: number }) =>
+          switchSize + Math.round(switchSize * 0.2),
+        height: ({ switchSize }: { switchSize: number }) =>
+          switchSize + Math.round(switchSize * 0.2),
       },
     },
 
@@ -127,7 +129,7 @@ export default createUseStyles<string, JSSProps>(
 
     divLine: {
       height: DEFAULT_DIVISION_LINE_HEIGHT,
-      width: ({ containerWidth }: { containerWidth: number }) => containerWidth,
+      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
       borderRadius: DEFAULT_DIVISION_LINE_HEIGHT / 2,
       backgroundColor: DEFAULT_DIVISION_COLOR,
     },

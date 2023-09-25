@@ -265,8 +265,6 @@ MaterialUILike.args = {
   callback: action('callback'),
 };
 
-MaterialUILike.parameters = { layout: 'fullscreen' };
-
 // IOS Like Example
 
 const optionsIos = [
@@ -315,5 +313,37 @@ IOSLike.args = {
   switchSize: 30,
   value: 'on',
   cssOverrides: iosCSSOverrides,
+  callback: action('callback'),
+};
+
+// Range Like Example
+
+const optionsRange = new Array(30).fill(undefined).map((_, index) => ({
+  value: `${index}`,
+  color: '#b336ff',
+  label: <span />,
+}));
+
+optionsRange[0].label = <span>MIN</span>;
+optionsRange[14].label = <div style={{ borderRight: '2px solid #aaa', width: 2, height: 10 }} />;
+optionsRange[29].label = <span>MAX</span>;
+
+const rangeCSSOverrides: CSSOverrides = {
+  division: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+};
+
+export const RangeLike = Template.bind({});
+
+RangeLike.args = {
+  options: optionsRange,
+  variant: 'primary',
+  containerWidth: 400,
+  scaleWhileDrag: false,
+  switchSize: 20,
+  value: '0',
+  cssOverrides: rangeCSSOverrides,
   callback: action('callback'),
 };

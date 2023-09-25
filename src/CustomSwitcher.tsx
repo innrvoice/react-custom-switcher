@@ -42,7 +42,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   const [translate, setTranslate] = React.useState(0);
   const [initialPosition, setInitialPosition] = React.useState(0);
 
-  const DIVISION_LENGTH = Math.ceil((containerWidth - actualSwitchSize) / (options.length - 1));
+  const DIVISION_LENGTH = (containerWidth - actualSwitchSize) / (options.length - 1);
 
   const handleDragEnd = (division: number) => {
     if (currentValue !== options[division].value) {
