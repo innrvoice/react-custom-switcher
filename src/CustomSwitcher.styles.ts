@@ -37,7 +37,7 @@ export default createUseStyles<string, JSSProps>(
       borderRadius: '50%',
       cursor: cssOverrides.cursorGrab ? cssOverrides.cursorGrab : 'grab',
       opacity: 1,
-      transition: 'transform 100ms ease-in, border-color 0.4s, background-color 0.4s',
+      transition: 'all 0.4s',
       pointerEvents: 'all',
       boxSizing: 'border-box',
     }),
@@ -72,7 +72,7 @@ export default createUseStyles<string, JSSProps>(
     }),
 
     transition: {
-      transition: 'transform 100ms ease-out',
+      transition: 'transform 200ms ease-out',
     },
 
     divisionsWrap: {
@@ -108,10 +108,8 @@ export default createUseStyles<string, JSSProps>(
         transform: 'translate3d(-50%, -50%, 0)',
         position: 'absolute',
         content: '""',
-        width: ({ switchSize }: { switchSize: number }) =>
-          switchSize + Math.round(switchSize * 0.2),
-        height: ({ switchSize }: { switchSize: number }) =>
-          switchSize + Math.round(switchSize * 0.2),
+        width: ({ switchSize }: { switchSize: number }) => switchSize,
+        height: ({ switchSize }: { switchSize: number }) => switchSize,
       },
     },
 

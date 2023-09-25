@@ -80,6 +80,10 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   }, [currentValue, options, DIVISION_LENGTH]);
 
   React.useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  React.useEffect(() => {
     const listener = (event: PointerEvent) => {
       if (event.relatedTarget == null) {
         enableScroll(classes.stopScrolling, isMobileOrTablet);

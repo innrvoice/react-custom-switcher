@@ -6,7 +6,7 @@ import { CustomSwitcher } from './CustomSwitcher';
 import { CSSOverrides } from './CustomSwitcher.types';
 
 export default {
-  title: 'Customization',
+  title: 'Customization/Variants',
   component: CustomSwitcher,
   parameters: {
     backgrounds: {
@@ -318,15 +318,17 @@ IOSLike.args = {
 
 // Range Like Example
 
-const optionsRange = new Array(30).fill(undefined).map((_, index) => ({
+const optionsRange = new Array(40).fill(undefined).map((_, index) => ({
   value: `${index}`,
   color: '#b336ff',
   label: <span />,
 }));
 
 optionsRange[0].label = <span>MIN</span>;
-optionsRange[14].label = <div style={{ borderRight: '2px solid #aaa', width: 2, height: 10 }} />;
-optionsRange[29].label = <span>MAX</span>;
+optionsRange[9].label = <div style={{ backgroundColor: '#bbb', width: 1, height: 10 }} />;
+optionsRange[19].label = <div style={{ backgroundColor: '#bbb', width: 3, height: 10 }} />;
+optionsRange[29].label = <div style={{ backgroundColor: '#bbb', width: 5, height: 10 }} />;
+optionsRange[39].label = <span>MAX</span>;
 
 const rangeCSSOverrides: CSSOverrides = {
   division: {
@@ -341,8 +343,8 @@ RangeLike.args = {
   options: optionsRange,
   variant: 'primary',
   containerWidth: 400,
-  scaleWhileDrag: false,
-  switchSize: 20,
+  scaleWhileDrag: 2,
+  switchSize: 10,
   value: '0',
   cssOverrides: rangeCSSOverrides,
   callback: action('callback'),
