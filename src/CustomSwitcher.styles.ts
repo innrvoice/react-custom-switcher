@@ -17,14 +17,6 @@ type JSSProps = {
 export default createUseStyles<string, JSSProps>(
   {
     root: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
-      width: '100%',
-      minWidth: 320,
-      fontFamily: 'Roboto, serif',
-      fontSize: 13,
       color: '#777',
     },
 
@@ -85,8 +77,7 @@ export default createUseStyles<string, JSSProps>(
 
     divisionsWrap: {
       position: 'absolute',
-      width: ({ containerWidth, switchSize }: { containerWidth: number; switchSize: number }) =>
-        containerWidth - switchSize,
+      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
       height: '100%',
       top: '50%',
       left: '50%',

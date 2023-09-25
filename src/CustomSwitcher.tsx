@@ -45,8 +45,10 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   const DIVISION_LENGTH = Math.ceil((containerWidth - actualSwitchSize) / (options.length - 1));
 
   const handleDragEnd = (division: number) => {
-    setCurrentValue(options[division].value);
-    callback(options[division].value);
+    if (currentValue !== options[division].value) {
+      setCurrentValue(options[division].value);
+      callback(options[division].value);
+    }
     setTransitionEnabled(true);
     setIsDragging(false);
   };
@@ -62,8 +64,10 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   ) => {
     event.stopPropagation();
     setTransitionEnabled(true);
-    setCurrentValue(options[division].value);
-    callback(options[division].value);
+    if (currentValue !== options[division].value) {
+      setCurrentValue(options[division].value);
+      callback(options[division].value);
+    }
   };
 
   React.useEffect(() => {
@@ -76,7 +80,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   }, [currentValue, options, DIVISION_LENGTH]);
 
   React.useEffect(() => {
-    const listener = (event: MouseEvent) => {
+    const listener = (event: PointerEvent) => {
       if (event.relatedTarget == null) {
         enableScroll(classes.stopScrolling, isMobileOrTablet);
         const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
@@ -85,9 +89,9 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
         setIsDragging(false);
       }
     };
-    document.addEventListener('mouseout', listener);
+    document.addEventListener('pointerout', listener);
 
-    return () => document.removeEventListener('mouseout', listener);
+    return () => document.removeEventListener('pointerout', listener);
   }, [translate, DIVISION_LENGTH, handleDragEnd, isMobileOrTablet]);
 
   React.useEffect(() => {
