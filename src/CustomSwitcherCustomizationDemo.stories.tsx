@@ -52,8 +52,8 @@ const optionsDemo = [
     label: (
       <div
         style={{
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           borderRadius: '50%',
           backgroundImage: `url(${image1thumbnail})`,
           backgroundSize: 'cover',
@@ -69,8 +69,8 @@ const optionsDemo = [
     label: (
       <div
         style={{
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           borderRadius: '50%',
           backgroundImage: `url(${image2thumbnail})`,
           backgroundSize: 'cover',
@@ -86,8 +86,8 @@ const optionsDemo = [
     label: (
       <div
         style={{
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           borderRadius: '50%',
           backgroundImage: `url(${image3thumbnail})`,
           backgroundSize: 'cover',
@@ -103,8 +103,8 @@ const optionsDemo = [
     label: (
       <div
         style={{
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           borderRadius: '50%',
           backgroundImage: `url(${image4thumbnail})`,
           backgroundSize: 'cover',
@@ -120,8 +120,8 @@ const optionsDemo = [
     label: (
       <div
         style={{
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           borderRadius: '50%',
           backgroundImage: `url(${image5thumbnail})`,
           backgroundSize: 'cover',
@@ -337,8 +337,8 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           bottom: 50,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: 470,
-          height: 100,
+          width: 370,
+          height: 80,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -356,7 +356,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
         <div
           style={{
             position: 'absolute',
-            left: -50,
+            left: -60,
             width: 50,
             height: 50,
             backgroundColor: '#fff',
@@ -378,8 +378,8 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           value={currentImageValue.toString()}
           options={optionsDemo}
           variant={'secondary'}
-          containerWidth={450}
-          switchSize={83}
+          containerWidth={350}
+          switchSize={63}
           cssOverrides={demoCSSOverrides}
           callback={handleSelectImage}
           scaleWhileDrag={false}
