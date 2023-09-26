@@ -39,6 +39,21 @@ const Template: StoryFn<typeof CustomSwitcher> = (args) => <CustomSwitcher {...a
 
 // Emojis Example
 
+const EmojiTemplate: StoryFn<typeof CustomSwitcher> = (args) => (
+  <div
+    style={{
+      width: 270,
+      height: 70,
+      backgroundColor: '#eee',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 35,
+    }}>
+    <CustomSwitcher {...args} />
+  </div>
+);
+
 const optionsEmoji = [
   {
     label: <div style={{ marginTop: 3, fontSize: 26 }}>🤢</div>,
@@ -67,7 +82,7 @@ const optionsEmoji = [
   },
 ];
 
-export const Emojis = Template.bind({});
+export const Emojis = EmojiTemplate.bind({});
 
 Emojis.args = {
   options: optionsEmoji,
@@ -274,7 +289,7 @@ const optionsIos = [
   },
   {
     value: 'on',
-    color: '#111',
+    color: '#666',
   },
 ];
 

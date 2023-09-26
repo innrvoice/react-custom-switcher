@@ -72,6 +72,7 @@ Primary.args = {
   options: optionsPrimary,
   containerWidth: 300,
   value: optionsPrimary[2].value,
+  dragEnabled: true,
   callback: action('callback'),
 };
 
@@ -82,5 +83,6 @@ PrimaryDisabled.args = {
   disabled: true,
   containerWidth: 300,
   value: optionsPrimary[2].value,
+  dragEnabled: true,
   callback: action('callback'),
 };
