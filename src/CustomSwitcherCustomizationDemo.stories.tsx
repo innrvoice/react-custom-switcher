@@ -377,6 +377,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
         <CustomSwitcher
           value={currentImageValue.toString()}
           options={optionsDemo}
+          dragEnabled={!play}
           variant={'secondary'}
           containerWidth={350}
           switchSize={63}

@@ -21,11 +21,12 @@ export type CSSOverrides = {
 
 export interface ICustomSwitcherProps {
   options: CustomSwitcherOption[];
-  containerWidth: number;
-  disabled?: boolean;
   value: string;
-  switchSize?: number;
+  containerWidth: number;
   variant?: CustomSwitcherVariant;
+  switchSize?: number;
+  dragEnabled?: boolean;
+  disabled?: boolean;
   scaleWhileDrag?: boolean | number;
   cssOverrides?: CSSOverrides;
   callback(currentValue: string): unknown;

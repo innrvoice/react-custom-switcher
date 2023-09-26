@@ -15,10 +15,11 @@ import { CustomSwitcherOption, ICustomSwitcherProps } from './CustomSwitcher.typ
 
 export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   options,
-  containerWidth,
-  switchSize,
   value,
+  containerWidth,
   variant = 'primary',
+  switchSize,
+  dragEnabled = true,
   scaleWhileDrag = DEFAULT_SCALE_WHILE_DRAG,
   disabled = false,
   cssOverrides = {},
@@ -93,10 +94,13 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
         setIsDragging(false);
       }
     };
-    document.addEventListener('pointerout', listener);
+
+    if (dragEnabled) {
+      document.addEventListener('pointerout', listener);
+    }
 
     return () => document.removeEventListener('pointerout', listener);
-  }, [translate, DIVISION_LENGTH, handleDragEnd, isMobileOrTablet]);
+  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet]);
 
   React.useEffect(() => {
     const listener = () => {
@@ -107,14 +111,20 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       handleDragEnd(division);
       setIsDragging(false);
     };
-    if (isMobileOrTablet) {
-      document.body.addEventListener('touchend', listener);
-      return () => document.body.removeEventListener('touchend', listener);
-    } else {
-      document.body.addEventListener('pointerup', listener);
-      return () => document.body.removeEventListener('pointerup', listener);
+
+    if (dragEnabled) {
+      if (isMobileOrTablet) {
+        document.body.addEventListener('touchend', listener);
+      } else {
+        document.body.addEventListener('pointerup', listener);
+      }
     }
-  }, [translate, DIVISION_LENGTH, handleDragEnd, isMobileOrTablet]);
+
+    return () => {
+      document.body.removeEventListener('touchend', listener);
+      document.body.removeEventListener('pointerup', listener);
+    };
+  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet]);
 
   React.useEffect(() => {
     const touchMoveListener = (event: TouchEvent) => {
@@ -147,11 +157,13 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       }
     };
 
-    if (isDragging) {
-      if (isMobileOrTablet) {
-        document.body.addEventListener('touchmove', touchMoveListener);
-      } else {
-        document.body.addEventListener('pointermove', pointerMoveListener);
+    if (dragEnabled) {
+      if (isDragging) {
+        if (isMobileOrTablet) {
+          document.body.addEventListener('touchmove', touchMoveListener);
+        } else {
+          document.body.addEventListener('pointermove', pointerMoveListener);
+        }
       }
     }
 
@@ -159,7 +171,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       document.body.removeEventListener('touchmove', touchMoveListener);
       document.body.removeEventListener('pointermove', pointerMoveListener);
     };
-  }, [isDragging, constraintsRef, draggableRef]);
+  }, [isDragging, constraintsRef, draggableRef, dragEnabled]);
 
   const handlePointerDown = (event: React.PointerEvent) => {
     disableScroll(classes.stopScrolling, isMobileOrTablet);
@@ -189,8 +201,12 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
           style={{
             transform: `translateX(${translate}px)`,
           }}
-          onPointerDown={!isMobileOrTablet && !disabled ? handlePointerDown : undefined}
-          onTouchStart={isMobileOrTablet && !disabled ? handleTouchStart : undefined}>
+          onPointerDown={
+            !isMobileOrTablet && !disabled && dragEnabled ? handlePointerDown : undefined
+          }
+          onTouchStart={
+            isMobileOrTablet && !disabled && dragEnabled ? handleTouchStart : undefined
+          }>
           <div
             className={clsx(classes.switch, {
               [classes.switchPrimary]: variant === 'primary',
@@ -198,7 +214,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
               [classes.grabbing]: isDragging,
               [classes.switchDisabledPrimary]: disabled && variant === 'primary',
               [classes.switchDisabledSecondary]: disabled && variant === 'secondary',
-              [classes.defaultDisabledCursor]: disabled,
+              [classes.defaultDisabledCursor]: disabled || !dragEnabled,
               [classes.switchOverride]: cssOverrides.switch,
             })}
             style={{
