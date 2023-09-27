@@ -1,7 +1,7 @@
 {
   "name": "react-custom-switcher",
   "type": "module",
-  "description": "TBD",
+  "description": "Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/innrvoice/react-custom-switcher.git"
   },
   "bugs": {
-    "url": "https://github.com/innrvoice/react-custom-switcher.git/issues"
+    "url": "https://github.com/innrvoice/react-custom-switcher/issues"
   },
   "scripts": {
     "build": "rimraf lib && rollup -c rollup.config.js",
@@ -22,8 +22,7 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.4",
@@ -65,7 +64,7 @@
   "keywords": [
     "react",
     "switcher",
-    "toggler"
+    "toggle"
   ],
   "files": [
     "lib"
