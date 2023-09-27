@@ -186,6 +186,6 @@ With this you can add and/or modify existing CSS properties of different element
 <hr>
 
 ### callback (required)
-type: *(currentValue: number) => unknown*
+type: *(currentValue: string) => unknown*
 
 A callback which is fired when user selects an option either by using drag or just clicking on needed option. 
