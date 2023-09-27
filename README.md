@@ -1,15 +1,14 @@
 # react-custom-switcher
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true" width="400px" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
 </p>
 
 Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true" width="500px" />
 </p>
-
 
 ## Installation
 
@@ -95,7 +94,7 @@ A value from options there switch will be set by default. You can use it as a co
 *type:* **number**
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true" width="400px" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true" width="500px" />
 </p>
 
 
@@ -112,7 +111,7 @@ There are only two basic variants of CustomSwitcher UI. All the customizations a
 #### The anatomy of primary variant
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-primary.png?raw=true" width="400px" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-primary.png?raw=true" width="500px" />
 </p>
 
 Primary variant has all the elements like switch, division line, divisions and options labels at the bottom. 
@@ -122,7 +121,7 @@ Switcher is filled and background color is transitioned in case optional **color
 #### The anatomy of secondary variant
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-secondary.png?raw=true" width="400px" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-secondary.png?raw=true" width="500px" />
 </p>
 
 
@@ -136,7 +135,7 @@ Switch element is transparent but has a border. Border color is transitioned in 
 type: *number*
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/switch-size.png?raw=true" width="400px" />
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/switch-size.png?raw=true" width="500px" />
 </p>
 
 As is.
