@@ -1,13 +1,13 @@
 # react-custom-switcher
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true" width="400px" />
 </p>
 
-React multi-option toggle/switcher component with dragging, snap and customizable UI written in Typescript.
+Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
 </p>
 
 
@@ -42,7 +42,7 @@ export const CustomSwitcherExample: React.FC = () => {
             ]}
             value={'off'}
             containerSize={300}
-            callback={(currentValue: string) => console.log(newValue)}
+            callback={(currentValue: string) => console.log(currentValue)}
         >
     )
 }
@@ -87,7 +87,7 @@ type CustomSwitcherOption = {
 ### value (required)
 type: *string*
 
-A value from options there switch will be set by default. You can use it as a controlled value.  [See example](https://codesandbox.io/)
+A value from options there switch will be set by default. You can use it as a controlled value.
 
 <hr>
 
@@ -95,7 +95,7 @@ A value from options there switch will be set by default. You can use it as a co
 *type:* **number**
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true" width="400px" />
 </p>
 
 
@@ -104,7 +104,7 @@ Width of the container where all the options will be rendered.
 <hr>
 
 ### variant (optional, defaults to *'primary'*)
-type: *'primary' | 'secondary'*
+type: *CustomSwitcherVariant* = *'primary' | 'secondary'*
 
 
 There are only two basic variants of CustomSwitcher UI. All the customizations are based on one of those variants.
@@ -112,23 +112,23 @@ There are only two basic variants of CustomSwitcher UI. All the customizations a
 #### The anatomy of primary variant
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-primary.png?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-primary.png?raw=true" width="400px" />
 </p>
 
-Primary variant has all the elements like division line, divisions, switcher and option labels at tbe bottom. 
+Primary variant has all the elements like switch, division line, divisions and options labels at the bottom. 
 
-Switcher is filled and background color is transitioned in case optional color properties were provided in **options** array.
+Switcher is filled and background color is transitioned in case optional **color** properties were provided in **options** array.
 
 #### The anatomy of secondary variant
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-secondary.png?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-secondary.png?raw=true" width="400px" />
 </p>
 
 
 Secondary variant has only main switch and labels at the center of divisions areas. Divisions and division line elements are hidden but this can be overridden by **cssOverrides** prop (*see below*).
 
-Switcher is transparent but has a border. Border color is transitioned in case optional color properties were provided in **options** array.
+Switch element is transparent but has a border. Border color is transitioned in case optional **color** properties were provided in **options** array.
 
 <hr>
 
@@ -136,7 +136,7 @@ Switcher is transparent but has a border. Border color is transitioned in case o
 type: *number*
 
 <p align="center">
-    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/switch-size.png?raw=true"
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/switch-size.png?raw=true" width="400px" />
 </p>
 
 As is.
@@ -160,14 +160,14 @@ In case you need to disable interaction with CustomSwitcher.
 ### scaleWhileDrag (optional, defaults to *true*)
 type: *boolean | number*
 
-You can turn off scaling of switch element while drag by providing *false*. Or you can define a custom scale by providing a number e.g *1.5* which will mean a 150% switch size while dragging like when using CSS scale property.
+You can turn off scaling of switch element while dragging by providing *false*. Or you can define a custom scale by providing a number, e.g *1.5* will mean a 150% switch size while dragging like when using CSS scale property.
 
 <hr>
 
 ### cssOverrides (optional)
 type: *CSSOverrides*
 
-You can pass an object of css overrides corresponding to this shape:
+You can pass an object of CSS overrides corresponding to this shape:
 
 ```typescript
 type CSSOverrides = {
@@ -182,11 +182,11 @@ type CSSOverrides = {
 };
 ```
 
-You can add and/or modify existing CSS properties of different elements and some behaviors. [See customization examples](https://codesandbox.io/)
+With this you can add and/or modify existing CSS properties of different elements and some behaviors. 
 
 <hr>
 
 ### callback (required)
 type: *(currentValue: number) => unknown*
 
-A callback which is fired when user selects some options either by using drag or just clicking on some option. 
+A callback which is fired when user selects an option either by using drag or just clicking on needed option. 
