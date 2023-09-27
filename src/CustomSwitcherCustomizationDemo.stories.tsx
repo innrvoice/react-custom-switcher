@@ -279,6 +279,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           backgroundImage: `url(${image1})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           opacity: currentImageValue === 0 ? 1 : 0,
           transition: 'opacity 1s',
         }}
@@ -291,6 +292,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           backgroundImage: `url(${image2})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           opacity: currentImageValue === 1 ? 1 : 0,
           transition: 'opacity 1s',
         }}
@@ -303,6 +305,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           backgroundImage: `url(${image3})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           opacity: currentImageValue === 2 ? 1 : 0,
           transition: 'opacity 1s',
         }}
@@ -315,6 +318,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           backgroundImage: `url(${image4})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           opacity: currentImageValue === 3 ? 1 : 0,
           transition: 'opacity 1s',
         }}
@@ -327,6 +331,7 @@ const Template: StoryFn<typeof CustomSwitcher> = () => {
           backgroundImage: `url(${image5})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           opacity: currentImageValue === 4 ? 1 : 0,
           transition: 'opacity 1s',
         }}

@@ -86,7 +86,7 @@ type CustomSwitcherOption = {
 ### value (required)
 type: *string*
 
-A value from options there switch will be set by default. You can use it as a controlled value.
+A value from options there switch will be set by default. You can use it as a controlled value. [See example](https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd)
 
 <hr>
 
@@ -189,3 +189,18 @@ With this you can add and/or modify existing CSS properties of different element
 type: *(currentValue: string) => unknown*
 
 A callback which is fired when user selects an option either by using drag or just clicking on needed option. 
+
+## Examples 
+
+- [Basic Primary Variant Switcher](https://codesandbox.io/s/react-custom-switcher-basic-primary-variant-example-pplkz5)
+- [Basic Secondary Variant Switcher](https://codesandbox.io/s/react-custom-switcher-basic-secondary-variant-example-pwjhmj)
+- ["Emoji" Switcher](https://codesandbox.io/s/react-custom-switcher-emoji-switcher-customisation-example-8p8mcr)
+- ["Impressions" Switcher](https://codesandbox.io/s/react-custom-switcher-impressions-switcher-customisation-example-7crc6g)
+- ["Tip" Switcher](https://codesandbox.io/s/react-custom-switcher-tip-switcher-customisation-example-tmlms2)
+- [Range-like Switcher](https://codesandbox.io/s/react-custom-switcher-range-like-switcher-customisation-example-3kjhlj)
+- [IOS-like Switcher](https://codesandbox.io/s/react-custom-switcher-ios-like-switcher-customisation-example-gsg82w)
+- [Material UI-like Switcher](https://codesandbox.io/s/react-custom-switcher-material-ui-like-switcher-customisation-example-8t5csm)
+- [Extended customization demo](https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd)
+
+
+
