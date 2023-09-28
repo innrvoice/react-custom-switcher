@@ -1,11 +1,11 @@
 {
   "name": "react-custom-switcher",
   "type": "module",
-  "description": "Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.",
+  "description": "Typed React multi-option toggle/switcher component with dragging, snap and customizable UI",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "author": "innrVoice <innrvoice@icloud.com>",
   "repository": {
@@ -63,8 +63,13 @@
   },
   "keywords": [
     "react",
+    "react-component",
     "switcher",
-    "toggle"
+    "switch",
+    "toggle",
+    "toggle-switch",
+    "switch-button",
+    "multi-option"
   ],
   "files": [
     "lib"
