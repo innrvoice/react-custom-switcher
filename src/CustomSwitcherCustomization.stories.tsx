@@ -285,11 +285,23 @@ MaterialUILike.args = {
 const optionsIos = [
   {
     value: 'off',
-    color: '#aaa',
+    color: '#eee',
+    label: <div style={{ width: 8, height: 13, borderLeft: '2px solid white' }} />,
   },
   {
     value: 'on',
-    color: '#666',
+    color: '#fff',
+    label: (
+      <div
+        style={{
+          width: 10,
+          height: 10,
+          borderRadius: '50%',
+          border: '2px solid white',
+          marginLeft: 7,
+        }}
+      />
+    ),
   },
 ];
 
@@ -301,35 +313,40 @@ const iosCSSOverrides: CSSOverrides = {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
   },
+  label: {
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
 };
 
-const IosTemplate: StoryFn<typeof CustomSwitcher> = (args) => (
-  <div
-    style={{
-      width: 80,
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: '#ddd',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-    <CustomSwitcher {...args} />
-  </div>
-);
+const IosTemplate: StoryFn<typeof CustomSwitcher> = () => {
+  const [value, setValue] = React.useState('on');
+
+  return (
+    <div
+      style={{
+        width: 65,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: value === 'off' ? '#999' : '#48d263',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <CustomSwitcher
+        options={optionsIos}
+        value={value}
+        variant={'primary'}
+        containerWidth={60}
+        switchSize={35}
+        cssOverrides={iosCSSOverrides}
+        callback={(currentValue: string) => setValue(currentValue)}
+      />
+    </div>
+  );
+};
 
 export const IOSLike = IosTemplate.bind({});
-
-IOSLike.args = {
-  options: optionsIos,
-  variant: 'primary',
-  containerWidth: 70,
-  scaleWhileDrag: false,
-  switchSize: 30,
-  value: 'on',
-  cssOverrides: iosCSSOverrides,
-  callback: action('callback'),
-};
 
 // Range Like Example
 
