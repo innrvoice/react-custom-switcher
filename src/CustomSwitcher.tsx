@@ -45,19 +45,22 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
 
   const DIVISION_LENGTH = (containerWidth - actualSwitchSize) / (options.length - 1);
 
-  const handleDragEnd = (division: number) => {
-    if (currentValue !== options[division].value) {
-      setCurrentValue(options[division].value);
-      callback(options[division].value);
-    }
-    setTransitionEnabled(true);
-    setIsDragging(false);
-  };
+  const handleDragEnd = React.useCallback(
+    (division: number) => {
+      if (currentValue !== options[division].value) {
+        setCurrentValue(options[division].value);
+        callback(options[division].value);
+      }
+      setTransitionEnabled(true);
+      setIsDragging(false);
+    },
+    [callback, options, currentValue],
+  );
 
-  const handleDragStart = () => {
+  const handleDragStart = React.useCallback(() => {
     setIsDragging(true);
     setTransitionEnabled(false);
-  };
+  }, []);
 
   const handleDivisionPointerDown = (
     division: number,
@@ -100,7 +103,14 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     }
 
     return () => document.removeEventListener('pointerout', listener);
-  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet]);
+  }, [
+    translate,
+    DIVISION_LENGTH,
+    handleDragEnd,
+    dragEnabled,
+    isMobileOrTablet,
+    classes.stopScrolling,
+  ]);
 
   React.useEffect(() => {
     const listener = () => {
@@ -124,7 +134,14 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       document.body.removeEventListener('touchend', listener);
       document.body.removeEventListener('pointerup', listener);
     };
-  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet]);
+  }, [
+    translate,
+    DIVISION_LENGTH,
+    handleDragEnd,
+    dragEnabled,
+    isMobileOrTablet,
+    classes.stopScrolling,
+  ]);
 
   React.useEffect(() => {
     const touchMoveListener = (event: TouchEvent) => {
@@ -171,7 +188,16 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       document.body.removeEventListener('touchmove', touchMoveListener);
       document.body.removeEventListener('pointermove', pointerMoveListener);
     };
-  }, [isDragging, constraintsRef, draggableRef, dragEnabled]);
+  }, [
+    isDragging,
+    constraintsRef,
+    draggableRef,
+    dragEnabled,
+    handleDragStart,
+    initialPosition,
+    initialXCoord,
+    isMobileOrTablet,
+  ]);
 
   const handlePointerDown = (event: React.PointerEvent) => {
     disableScroll(classes.stopScrolling, isMobileOrTablet);
