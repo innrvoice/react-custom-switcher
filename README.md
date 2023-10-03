@@ -91,7 +91,7 @@ A value from options there switch will be set by default. You can use it as a co
 <hr>
 
 ### containerWidth (required)
-*type:* **number**
+type: *number*
 
 <p align="center">
     <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true" width="500px" />
