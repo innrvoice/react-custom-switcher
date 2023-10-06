@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>react-custom-switcher | Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="react-custom-switcher" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Typed React multi-option toggle/switcher component with dragging, snap and customizable UI." />
+<meta property="og:description" content="Typed React multi-option toggle/switcher component with dragging, snap and customizable UI." />
+<link rel="canonical" href="https://innrvoice.github.io/react-custom-switcher/" />
+<meta property="og:url" content="https://innrvoice.github.io/react-custom-switcher/" />
+<meta property="og:site_name" content="react-custom-switcher" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="react-custom-switcher" />
+<meta name="google-site-verification" content="l3c1YfIO30PvwvVxnx7-hBrlTbsvYgGkwp4V8DQZCBk" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.","headline":"react-custom-switcher","name":"react-custom-switcher","url":"https://innrvoice.github.io/react-custom-switcher/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/react-custom-switcher/assets/css/style.css?v=3a615e65a0c1254fd6300f5cb0811787e5c700b5">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/react-custom-switcher/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+
+      <h1 id="react-custom-switcher">react-custom-switcher</h1>
+      <h4><a href="" target="_blank">npm package</a></h4>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
+</p>
+
+<p>Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.</p>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true" width="500px" />
+</p>
+
+<h2 id="installation">Installation</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install react-custom-switcher
+</code></pre></div></div>
+<p>or</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn add react-custom-switcher
+</code></pre></div></div>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">CustomSwitcher</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-custom-switcher</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">CustomSwitcherExample</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="o">&lt;</span><span class="nx">CustomSwitcher</span>
+            <span class="nx">options</span><span class="o">=</span><span class="p">{[</span>
+                <span class="p">{</span>
+                    <span class="na">value</span><span class="p">:</span> <span class="dl">'</span><span class="s1">off</span><span class="dl">'</span><span class="p">,</span>
+                    <span class="na">label</span><span class="p">:</span> <span class="dl">'</span><span class="s1">OFF,
+                },
+                {
+                    value: </span><span class="dl">'</span><span class="nx">on</span><span class="dl">'</span><span class="s1">,
+                    label: </span><span class="dl">'</span><span class="nx">ON</span><span class="dl">'</span><span class="s1">,
+                }
+            ]}
+            value={</span><span class="dl">'</span><span class="nx">off</span><span class="dl">'</span><span class="s1">}
+            containerSize={300}
+            callback={(currentValue: string) =&gt; console.log(currentValue)}
+        &gt;
+    )
+}
+</span></code></pre></div></div>
+
+<h2 id="api">API</h2>
+
+<p>CustomSwitcher component accepts a list of props corresponding to <strong>ICustomSwitcherProps</strong> interface:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">ICustomSwitcherProps</span> <span class="p">{</span>
+  <span class="nl">options</span><span class="p">:</span> <span class="nx">CustomSwitcherOption</span><span class="p">[];</span>
+  <span class="nl">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">containerWidth</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">variant</span><span class="p">?:</span> <span class="nx">CustomSwitcherVariant</span><span class="p">;</span>
+  <span class="nl">switchSize</span><span class="p">?:</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">dragEnabled</span><span class="p">?:</span> <span class="nx">boolean</span><span class="p">;</span>
+  <span class="nl">disabled</span><span class="p">?:</span> <span class="nx">boolean</span><span class="p">;</span>
+  <span class="nl">scaleWhileDrag</span><span class="p">?:</span> <span class="nx">boolean</span> <span class="o">|</span> <span class="kr">number</span><span class="p">;</span>
+  <span class="nl">cssOverrides</span><span class="p">?:</span> <span class="nx">CSSOverrides</span><span class="p">;</span>
+  <span class="nx">callback</span><span class="p">(</span><span class="nx">currentValue</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">unknown</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Lets look at them one by one.</p>
+
+<h3 id="options-required">options (required)</h3>
+<p>type: <em>CustomerSwitcherOption[]</em></p>
+
+<p>Required array of options to switch between. Every option is array should have a shape corresponding to <strong>CustomSwitcherOption</strong>:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">CustomSwitcherOption</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">label</span><span class="p">?:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">React</span><span class="p">.</span><span class="nx">ReactElement</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">?:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="value-required">value (required)</h3>
+<p>type: <em>string</em></p>
+
+<p>A value from options there switch will be set by default. You can use it as a controlled value. <a href="https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd">See example</a></p>
+
+<hr />
+
+<h3 id="containerwidth-required">containerWidth (required)</h3>
+<p>type: <em>number</em></p>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/container-width.png?raw=true" width="500px" />
+</p>
+
+<p>Width of the container where all the options will be rendered.</p>
+
+<hr />
+
+<h3 id="variant-optional-defaults-to-primary">variant (optional, defaults to <em>‘primary’</em>)</h3>
+<p>type: <em>CustomSwitcherVariant</em> = <em>‘primary’ | ‘secondary’</em></p>
+
+<p>There are only two basic variants of CustomSwitcher UI. All the customizations are based on one of those variants.</p>
+
+<h4 id="the-anatomy-of-primary-variant">The anatomy of primary variant</h4>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-primary.png?raw=true" width="500px" />
+</p>
+
+<p>Primary variant has all the elements like switch, division line, divisions and options labels at the bottom.</p>
+
+<p>Switcher is filled and background color is transitioned in case optional <strong>color</strong> properties were provided in <strong>options</strong> array.</p>
+
+<h4 id="the-anatomy-of-secondary-variant">The anatomy of secondary variant</h4>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/variant-secondary.png?raw=true" width="500px" />
+</p>
+
+<p>Secondary variant has only main switch and labels at the center of divisions areas. Divisions and division line elements are hidden but this can be overridden by <strong>cssOverrides</strong> prop (<em>see below</em>).</p>
+
+<p>Switch element is transparent but has a border. Border color is transitioned in case optional <strong>color</strong> properties were provided in <strong>options</strong> array.</p>
+
+<hr />
+
+<h3 id="switchsize-optional">switchSize (optional)</h3>
+<p>type: <em>number</em></p>
+
+<p align="center">
+    <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/switch-size.png?raw=true" width="500px" />
+</p>
+
+<p>As is.</p>
+
+<hr />
+
+<h3 id="dragenabled-optional-defaults-to-true">dragEnabled (optional, defaults to <em>true</em>)</h3>
+<p>type: <em>boolean</em></p>
+
+<p>You can disable drag and it can be useful in some cases, for example when using value as a controlled value.</p>
+
+<hr />
+
+<h3 id="disabled-optional-defaults-to-false">disabled (optional, defaults to <em>false</em>)</h3>
+<p>type: <em>boolean</em></p>
+
+<p>In case you need to disable interaction with CustomSwitcher.</p>
+
+<hr />
+
+<h3 id="scalewhiledrag-optional-defaults-to-true">scaleWhileDrag (optional, defaults to <em>true</em>)</h3>
+<p>type: <em>boolean | number</em></p>
+
+<p>You can turn off scaling of switch element while dragging by providing <em>false</em>. Or you can define a custom scale by providing a number, e.g <em>1.5</em> will mean a 150% switch size while dragging like when using CSS scale property.</p>
+
+<hr />
+
+<h3 id="cssoverrides-optional">cssOverrides (optional)</h3>
+<p>type: <em>CSSOverrides</em></p>
+
+<p>You can pass an object of CSS overrides corresponding to this shape:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">CSSOverrides</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">cursorDefault</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nl">cursorGrab</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nl">cursorGrabbing</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nl">cursorDisabled</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
+  <span class="nl">switch</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
+  <span class="nl">division</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
+  <span class="nl">divisionLine</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
+  <span class="nl">label</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>With this you can add and/or modify existing CSS properties of different elements and some behaviors.</p>
+
+<hr />
+
+<h3 id="callback-required">callback (required)</h3>
+<p>type: <em>(currentValue: string) =&gt; unknown</em></p>
+
+<p>A callback which is fired when user selects an option either by using drag or just clicking on needed option.</p>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-basic-primary-variant-example-pplkz5">Basic Primary Variant Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-basic-secondary-variant-example-pwjhmj">Basic Secondary Variant Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-emoji-switcher-customisation-example-8p8mcr">“Emoji” Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-impressions-switcher-customisation-example-7crc6g">“Impressions” Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-tip-switcher-customisation-example-tmlms2">“Tip” Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-range-like-switcher-customisation-example-3kjhlj">Range-like Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-ios-like-switcher-customisation-example-gsg82w">IOS-like Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-material-ui-like-switcher-customisation-example-8t5csm">Material UI-like Switcher</a></li>
+  <li><a href="https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd">Extended customization demo</a></li>
+</ul>
+
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="https://github.com/innrvoice/react-custom-switcher/edit/master/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
