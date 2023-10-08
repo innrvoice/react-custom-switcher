@@ -289,7 +289,10 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                       [classes.defaultCursor]: cssOverrides.cursorDefault,
                       [classes.labelOverride]: cssOverrides.label,
                       [classes.labelDisabled]: disabled,
-                      [classes.disabledCursor]: disabled && cssOverrides.cursorDisabled,
+                      [classes.defaultDisabledCursor]:
+                        !cssOverrides.cursorDisabled && (disabled || currentValue === option.value),
+                      [classes.disabledCursor]:
+                        cssOverrides.cursorDisabled && (disabled || currentValue === option.value),
                     })}
                     onPointerDown={
                       !disabled ? (event) => handleDivisionPointerDown(index, event) : undefined

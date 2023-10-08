@@ -142,7 +142,6 @@ export default createUseStyles<string, JSSProps>(
 
     label: {
       position: 'absolute',
-      top: '150%',
       cursor: 'pointer',
     },
 
