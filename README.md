@@ -4,7 +4,7 @@
     <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
 </p>
 
-Typed React multi-option toggle/switcher component with dragging, snap and customizable UI.
+Multi-option Switch/Toggle component for React with dragging, snap and customizable UI.
 
 <p align="center">
     <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/demo.gif?raw=true" width="500px" />
