@@ -63,17 +63,17 @@ const optionsEmoji = [
   {
     label: <div style={{ marginTop: 3, fontSize: 26 }}>🤬</div>,
     value: 'rude',
-    color: '#FF0000',
+    color: '#eb4900',
   },
   {
     label: <div style={{ marginTop: 3, fontSize: 26 }}>😕</div>,
     value: 'hm',
-    color: '#0058d0',
+    color: '#0098eb',
   },
   {
     label: <div style={{ marginTop: 3, fontSize: 26 }}>🤩</div>,
     value: 'nice',
-    color: '#d0c400',
+    color: '#ebc041',
   },
   {
     label: <div style={{ fontSize: 26 }}>🔥</div>,
@@ -218,12 +218,12 @@ const optionsImpressions = [
 const impressionsCSSOverrides: CSSOverrides = {
   divisionLine: {
     height: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#cacaca',
   },
   division: {
-    border: '1px solid #ccc',
-    width: 41,
-    height: 41,
+    border: '1px solid #cacaca',
+    width: 42,
+    height: 42,
     borderRadius: '50%',
     backgroundColor: '#fff',
   },
@@ -367,6 +367,9 @@ const rangeCSSOverrides: CSSOverrides = {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
   },
+  switch: {
+    borderRadius: 6,
+  },
 };
 
 export const RangeLike = Template.bind({});
@@ -374,9 +377,9 @@ export const RangeLike = Template.bind({});
 RangeLike.args = {
   options: optionsRange,
   variant: 'primary',
-  containerWidth: 400,
-  scaleWhileDrag: 2,
-  switchSize: 10,
+  containerWidth: 600,
+  scaleWhileDrag: 1.8,
+  switchSize: 15,
   value: '0',
   cssOverrides: rangeCSSOverrides,
   callback: action('callback'),

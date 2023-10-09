@@ -42,27 +42,27 @@ const optionsPrimary = [
   {
     label: 'Bad',
     value: 'bad',
-    color: '#CC0000',
+    color: '#eb4900',
   },
   {
     label: 'Average',
     value: 'average',
-    color: '#B94E00',
+    color: '#ebc041',
   },
   {
     label: 'OK',
     value: 'ok',
-    color: '#406686',
+    color: '#0098eb',
   },
   {
-    label: 'Nice',
+    label: 'Good',
     value: 'nice',
-    color: '#447601',
+    color: '#00db79',
   },
   {
     label: 'Excellent!',
     value: 'excellent',
-    color: '#62AA00',
+    color: '#98e000',
   },
 ];
 
