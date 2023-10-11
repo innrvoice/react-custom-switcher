@@ -27,9 +27,7 @@ export default {
 
   plugins: [
     resolve(),
-    commonJS({
-      include: 'node_modules/**',
-    }),
+    commonJS(),
     typescript({
       tsconfigOverride: {
         exclude: ['**/*.test.ts', '**/*.stories.tsx'],

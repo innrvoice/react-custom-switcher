@@ -1,4 +1,3 @@
-import { createUseStyles } from 'react-jss';
 import { CSSOverrides } from './CustomSwitcher.types';
 import {
   DEFAULT_DIVISION_POINT_SIZE,
@@ -7,31 +6,34 @@ import {
   DEFAULT_BORDER_SIZE,
   DEFAULT_DIVISION_LINE_HEIGHT,
 } from './CustomSwitcher.constants';
+import { CSSProperties } from 'react';
 
-type JSSProps = {
+export const styles = ({
+  containerWidth,
+  switchSize,
+  cssOverrides,
+}: {
   containerWidth: number;
   switchSize: number;
   cssOverrides: CSSOverrides;
-};
-
-export default createUseStyles<string, JSSProps>(
-  {
+}) =>
+  ({
     root: {
       color: '#777',
     },
 
     container: {
-      width: ({ containerWidth }) => containerWidth,
-      height: ({ switchSize }) => switchSize,
+      width: containerWidth,
+      height: switchSize,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      '-webkit-tap-highlight-color': 'transparent',
-      '-webkit-touch-callout': 'none',
+      WebkitTapHighlightColor: 'transparent',
+      WebkitTouchCallout: 'none',
       userSelect: 'none',
     },
 
-    switch: ({ switchSize, cssOverrides }) => ({
+    switch: {
       width: switchSize,
       height: switchSize,
       borderRadius: '50%',
@@ -40,16 +42,16 @@ export default createUseStyles<string, JSSProps>(
       transition: 'all 0.4s',
       pointerEvents: 'all',
       boxSizing: 'border-box',
-    }),
+    },
 
     draggable: {
-      position: 'absolute',
+      position: 'absolute' as CSSProperties['position'],
       zIndex: 1,
     },
 
-    switchOverride: ({ cssOverrides }) => ({
+    switchOverride: {
       ...cssOverrides.switch,
-    }),
+    },
 
     switchPrimary: {
       backgroundColor: DEFAULT_SWITCH_COLOR,
@@ -57,6 +59,10 @@ export default createUseStyles<string, JSSProps>(
 
     switchSecondary: {
       border: `5px solid ${DEFAULT_SWITCH_COLOR}`,
+    },
+
+    switchDisabled: {
+      ...cssOverrides.switchDisabled,
     },
 
     switchDisabledPrimary: {
@@ -67,9 +73,9 @@ export default createUseStyles<string, JSSProps>(
       borderColor: DEFAULT_DIVISION_COLOR,
     },
 
-    grabbing: ({ cssOverrides }) => ({
+    grabbing: {
       cursor: cssOverrides.cursorGrabbing ? cssOverrides.cursorGrabbing : 'grabbing',
-    }),
+    },
 
     transition: {
       transition: 'transform 200ms ease-out',
@@ -77,7 +83,7 @@ export default createUseStyles<string, JSSProps>(
 
     divisionsWrap: {
       position: 'absolute',
-      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
+      width: containerWidth - switchSize,
       height: '100%',
       top: '50%',
       left: '50%',
@@ -89,8 +95,8 @@ export default createUseStyles<string, JSSProps>(
     divWrap: {
       position: 'absolute',
       top: '50%',
-      width: ({ switchSize }: { switchSize: number }) => switchSize,
-      height: ({ switchSize }: { switchSize: number }) => switchSize,
+      width: switchSize,
+      height: switchSize,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -102,15 +108,6 @@ export default createUseStyles<string, JSSProps>(
       width: DEFAULT_DIVISION_POINT_SIZE,
       height: DEFAULT_DIVISION_POINT_SIZE,
       cursor: 'pointer',
-      '&:after': {
-        top: '50%',
-        left: '50%',
-        transform: 'translate3d(-50%, -50%, 0)',
-        position: 'absolute',
-        content: '""',
-        width: ({ switchSize }: { switchSize: number }) => switchSize,
-        height: ({ switchSize }: { switchSize: number }) => switchSize,
-      },
     },
 
     divisionPrimary: {
@@ -121,13 +118,13 @@ export default createUseStyles<string, JSSProps>(
 
     divisionSecondary: {},
 
-    divisionOverride: ({ cssOverrides }) => ({
+    divisionOverride: {
       ...cssOverrides.division,
-    }),
+    },
 
     divLine: {
       height: DEFAULT_DIVISION_LINE_HEIGHT,
-      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
+      width: containerWidth - switchSize,
       borderRadius: DEFAULT_DIVISION_LINE_HEIGHT / 2,
       backgroundColor: DEFAULT_DIVISION_COLOR,
     },
@@ -136,9 +133,9 @@ export default createUseStyles<string, JSSProps>(
       backgroundColor: 'transparent',
     },
 
-    divLineOverride: ({ cssOverrides }) => ({
+    divLineOverride: {
       ...cssOverrides.divisionLine,
-    }),
+    },
 
     label: {
       position: 'absolute',
@@ -160,17 +157,17 @@ export default createUseStyles<string, JSSProps>(
       opacity: 0.6,
     },
 
-    labelOverride: ({ cssOverrides }) => ({
+    labelOverride: {
       ...cssOverrides.label,
-    }),
+    },
 
-    defaultCursor: ({ cssOverrides }) => ({
-      cursor: cssOverrides.cursorDisabled,
-    }),
+    defaultCursor: {
+      cursor: cssOverrides.cursorDefault ? cssOverrides.cursorDefault : 'pointer',
+    },
 
-    disabledCursor: ({ cssOverrides }) => ({
+    disabledCursor: {
       cursor: cssOverrides.cursorDisabled,
-    }),
+    },
 
     defaultDisabledCursor: {
       cursor: 'default !important',
@@ -180,8 +177,4 @@ export default createUseStyles<string, JSSProps>(
       height: '100%',
       overflow: 'hidden',
     },
-  },
-  {
-    name: 'CustomSwitcher',
-  },
-);
+  }) as Record<string, CSSProperties>;

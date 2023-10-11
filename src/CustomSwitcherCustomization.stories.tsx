@@ -168,6 +168,7 @@ export const Tip = Template.bind({});
 Tip.args = {
   options: optionsTip,
   containerWidth: 300,
+  switchSize: 40,
   value: '0',
   cssOverrides: tipCSSOverrides,
   callback: action('callback'),

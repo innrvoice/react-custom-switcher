@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 
-export type CustomSwitcherOption = {
-  value: string;
+export type CustomSwitcherOption<OptionValue> = {
+  value: OptionValue;
   label?: string | React.ReactElement;
   color?: string;
 };
@@ -14,14 +14,15 @@ export type CSSOverrides = {
   cursorGrabbing?: CSSProperties['cursor'];
   cursorDisabled?: CSSProperties['cursor'];
   switch?: CSSProperties;
+  switchDisabled?: CSSProperties;
   division?: CSSProperties;
   divisionLine?: CSSProperties;
   label?: CSSProperties;
 };
 
-export interface ICustomSwitcherProps {
-  options: CustomSwitcherOption[];
-  value: string;
+export interface ICustomSwitcherProps<OptionValue = unknown> {
+  options: CustomSwitcherOption<OptionValue>[];
+  value: OptionValue;
   containerWidth: number;
   variant?: CustomSwitcherVariant;
   switchSize?: number;
@@ -29,5 +30,5 @@ export interface ICustomSwitcherProps {
   disabled?: boolean;
   scaleWhileDrag?: boolean | number;
   cssOverrides?: CSSOverrides;
-  callback(currentValue: string): unknown;
+  callback(currentValue: OptionValue): unknown;
 }
