@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "author": "innrVoice <innrvoice@icloud.com>",
   "repository": {
@@ -86,8 +86,5 @@
       "plugin:storybook/recommended"
     ]
   },
-  "dependencies": {
-    "clsx": "^2.0.0",
-    "react-jss": "^10.10.0"
-  }
+  "dependencies": {}
 }
