@@ -1,3 +1,4 @@
+import { createUseStyles } from 'react-jss';
 import { CSSOverrides } from './CustomSwitcher.types';
 import {
   DEFAULT_DIVISION_POINT_SIZE,
@@ -6,34 +7,31 @@ import {
   DEFAULT_BORDER_SIZE,
   DEFAULT_DIVISION_LINE_HEIGHT,
 } from './CustomSwitcher.constants';
-import { CSSProperties } from 'react';
 
-export const styles = ({
-  containerWidth,
-  switchSize,
-  cssOverrides,
-}: {
+type JSSProps = {
   containerWidth: number;
   switchSize: number;
   cssOverrides: CSSOverrides;
-}) =>
-  ({
+};
+
+export default createUseStyles<string, JSSProps>(
+  {
     root: {
       color: '#777',
     },
 
     container: {
-      width: containerWidth,
-      height: switchSize,
+      width: ({ containerWidth }) => containerWidth,
+      height: ({ switchSize }) => switchSize,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      WebkitTapHighlightColor: 'transparent',
-      WebkitTouchCallout: 'none',
+      '-webkit-tap-highlight-color': 'transparent',
+      '-webkit-touch-callout': 'none',
       userSelect: 'none',
     },
 
-    switch: {
+    switch: ({ switchSize, cssOverrides }) => ({
       width: switchSize,
       height: switchSize,
       borderRadius: '50%',
@@ -42,16 +40,20 @@ export const styles = ({
       transition: 'all 0.4s',
       pointerEvents: 'all',
       boxSizing: 'border-box',
-    },
+    }),
+
+    switchDisabledOverride: ({ cssOverrides }) => ({
+      ...cssOverrides.switchDisabled,
+    }),
 
     draggable: {
-      position: 'absolute' as CSSProperties['position'],
+      position: 'absolute',
       zIndex: 1,
     },
 
-    switchOverride: {
+    switchOverride: ({ cssOverrides }) => ({
       ...cssOverrides.switch,
-    },
+    }),
 
     switchPrimary: {
       backgroundColor: DEFAULT_SWITCH_COLOR,
@@ -59,10 +61,6 @@ export const styles = ({
 
     switchSecondary: {
       border: `5px solid ${DEFAULT_SWITCH_COLOR}`,
-    },
-
-    switchDisabled: {
-      ...cssOverrides.switchDisabled,
     },
 
     switchDisabledPrimary: {
@@ -73,9 +71,9 @@ export const styles = ({
       borderColor: DEFAULT_DIVISION_COLOR,
     },
 
-    grabbing: {
+    grabbing: ({ cssOverrides }) => ({
       cursor: cssOverrides.cursorGrabbing ? cssOverrides.cursorGrabbing : 'grabbing',
-    },
+    }),
 
     transition: {
       transition: 'transform 200ms ease-out',
@@ -83,7 +81,7 @@ export const styles = ({
 
     divisionsWrap: {
       position: 'absolute',
-      width: containerWidth - switchSize,
+      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
       height: '100%',
       top: '50%',
       left: '50%',
@@ -95,11 +93,12 @@ export const styles = ({
     divWrap: {
       position: 'absolute',
       top: '50%',
-      width: switchSize,
-      height: switchSize,
+      width: ({ switchSize }: { switchSize: number }) => switchSize,
+      height: ({ switchSize }: { switchSize: number }) => switchSize,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      cursor: 'pointer',
     },
 
     division: {
@@ -118,13 +117,13 @@ export const styles = ({
 
     divisionSecondary: {},
 
-    divisionOverride: {
+    divisionOverride: ({ cssOverrides }) => ({
       ...cssOverrides.division,
-    },
+    }),
 
     divLine: {
       height: DEFAULT_DIVISION_LINE_HEIGHT,
-      width: containerWidth - switchSize,
+      width: ({ containerWidth, switchSize }) => containerWidth - switchSize,
       borderRadius: DEFAULT_DIVISION_LINE_HEIGHT / 2,
       backgroundColor: DEFAULT_DIVISION_COLOR,
     },
@@ -133,9 +132,9 @@ export const styles = ({
       backgroundColor: 'transparent',
     },
 
-    divLineOverride: {
+    divLineOverride: ({ cssOverrides }) => ({
       ...cssOverrides.divisionLine,
-    },
+    }),
 
     label: {
       position: 'absolute',
@@ -157,17 +156,17 @@ export const styles = ({
       opacity: 0.6,
     },
 
-    labelOverride: {
+    labelOverride: ({ cssOverrides }) => ({
       ...cssOverrides.label,
-    },
+    }),
 
-    defaultCursor: {
-      cursor: cssOverrides.cursorDefault ? cssOverrides.cursorDefault : 'pointer',
-    },
-
-    disabledCursor: {
+    defaultCursor: ({ cssOverrides }) => ({
       cursor: cssOverrides.cursorDisabled,
-    },
+    }),
+
+    disabledCursor: ({ cssOverrides }) => ({
+      cursor: cssOverrides.cursorDisabled,
+    }),
 
     defaultDisabledCursor: {
       cursor: 'default !important',
@@ -177,4 +176,8 @@ export const styles = ({
       height: '100%',
       overflow: 'hidden',
     },
-  }) as Record<string, CSSProperties>;
+  },
+  {
+    name: 'CustomSwitcher',
+  },
+);

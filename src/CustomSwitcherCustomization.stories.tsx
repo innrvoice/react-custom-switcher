@@ -180,38 +180,38 @@ Tip.args = {
 const optionsImpressions = [
   {
     label: '100',
-    value: '100',
+    value: 100,
     color: '#003568',
   },
   {
     label: '1K',
-    value: '1000',
+    value: 1000,
     color: '#003970',
   },
   {
     label: '5K',
-    value: '5000',
+    value: 5000,
     color: '#004689',
   },
 
   {
     label: '10K',
-    value: '10000',
+    value: 10000,
     color: '#014f9d',
   },
   {
     label: '100K',
-    value: '100000',
+    value: 100000,
     color: '#005cb7',
   },
   {
     label: '1M',
-    value: '1000000',
+    value: 1000000,
     color: '#0163c4',
   },
   {
     label: '♾️',
-    value: 'infinity',
+    value: Infinity,
     color: '#FF5500',
   },
 ];
