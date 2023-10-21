@@ -101,9 +101,9 @@
 
 <p>CustomSwitcher component accepts a list of props corresponding to <strong>ICustomSwitcherProps</strong> interface:</p>
 
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">ICustomSwitcherProps</span> <span class="p">{</span>
-  <span class="nl">options</span><span class="p">:</span> <span class="nx">CustomSwitcherOption</span><span class="p">[];</span>
-  <span class="nl">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">ICustomSwitcherProps&lt;OptionValue = unknown&gt;</span> <span class="p">{</span>
+  <span class="nl">options</span><span class="p">:</span> <span class="nx">CustomSwitcherOption&lt;OptionValue&gt;</span><span class="p">[];</span>
+  <span class="nl">value</span><span class="p">:</span> <span class="kr">OptionValue</span><span class="p">;</span>
   <span class="nl">containerWidth</span><span class="p">:</span> <span class="kr">number</span><span class="p">;</span>
   <span class="nl">variant</span><span class="p">?:</span> <span class="nx">CustomSwitcherVariant</span><span class="p">;</span>
   <span class="nl">switchSize</span><span class="p">?:</span> <span class="kr">number</span><span class="p">;</span>
@@ -111,7 +111,7 @@
   <span class="nl">disabled</span><span class="p">?:</span> <span class="nx">boolean</span><span class="p">;</span>
   <span class="nl">scaleWhileDrag</span><span class="p">?:</span> <span class="nx">boolean</span> <span class="o">|</span> <span class="kr">number</span><span class="p">;</span>
   <span class="nl">cssOverrides</span><span class="p">?:</span> <span class="nx">CSSOverrides</span><span class="p">;</span>
-  <span class="nx">callback</span><span class="p">(</span><span class="nx">currentValue</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">unknown</span><span class="p">;</span>
+  <span class="nx">callback</span><span class="p">(</span><span class="nx">currentValue</span><span class="p">:</span> <span class="kr">OptionValue</span><span class="p">):</span> <span class="nx">unknown</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -122,8 +122,8 @@
 
 <p>Required array of options to switch between. Every option is array should have a shape corresponding to <strong>CustomSwitcherOption</strong>:</p>
 
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">CustomSwitcherOption</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">CustomSwitcherOption&lt;OptionValue&gt;</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">value</span><span class="p">:</span> <span class="kr">OptionValue</span><span class="p">;</span>
   <span class="nl">label</span><span class="p">?:</span> <span class="kr">string</span> <span class="o">|</span> <span class="nx">React</span><span class="p">.</span><span class="nx">ReactElement</span><span class="p">;</span>
   <span class="nl">color</span><span class="p">?:</span> <span class="kr">string</span><span class="p">;</span>
 <span class="p">};</span>
@@ -132,7 +132,7 @@
 <hr />
 
 <h3 id="value-required">value (required)</h3>
-<p>type: <em>string</em></p>
+<p>type: <em>OptionValue</em> (defaults to <em>unknown</em>)</p>
 
 <p>A value from options there switch will be set by default. You can use it as a controlled value. <a href="https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd">See example</a></p>
 
@@ -219,6 +219,7 @@
   <span class="nl">cursorGrabbing</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
   <span class="nl">cursorDisabled</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">[</span><span class="dl">'</span><span class="s1">cursor</span><span class="dl">'</span><span class="p">];</span>
   <span class="nl">switch</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
+  <span class="nl">switchDisabled</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
   <span class="nl">division</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
   <span class="nl">divisionLine</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
   <span class="nl">label</span><span class="p">?:</span> <span class="nx">CSSProperties</span><span class="p">;</span>
@@ -230,7 +231,7 @@
 <hr />
 
 <h3 id="callback-required">callback (required)</h3>
-<p>type: <em>(currentValue: string) =&gt; unknown</em></p>
+<p>type: <em>(currentValue: OptionValue) =&gt; unknown</em></p>
 
 <p>A callback which is fired when user selects an option either by using drag or just clicking on needed option.</p>
 

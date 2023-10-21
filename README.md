@@ -52,9 +52,9 @@ export const CustomSwitcherExample: React.FC = () => {
 CustomSwitcher component accepts a list of props corresponding to **ICustomSwitcherProps** interface:
 
 ```typescript
-interface ICustomSwitcherProps {
-  options: CustomSwitcherOption[];
-  value: string;
+interface ICustomSwitcherProps<OptionValue = unknown> {
+  options: CustomSwitcherOption<OptionValue>[];
+  value: OptionValue;
   containerWidth: number;
   variant?: CustomSwitcherVariant;
   switchSize?: number;
@@ -62,7 +62,7 @@ interface ICustomSwitcherProps {
   disabled?: boolean;
   scaleWhileDrag?: boolean | number;
   cssOverrides?: CSSOverrides;
-  callback(currentValue: string): unknown;
+  callback(currentValue: OptionValue): unknown;
 }
 ```
 
@@ -74,8 +74,8 @@ type: *CustomerSwitcherOption[]*
 Required array of options to switch between. Every option is array should have a shape corresponding to **CustomSwitcherOption**:
 
 ```typescript
-type CustomSwitcherOption = {
-  value: string;
+type CustomSwitcherOption<OptionValue> = {
+  value: OptionValue;
   label?: string | React.ReactElement;
   color?: string;
 };
@@ -84,7 +84,7 @@ type CustomSwitcherOption = {
 <hr>
 
 ### value (required)
-type: *string*
+type: *OptionValue* (defaults to *unknown*)
 
 A value from options there switch will be set by default. You can use it as a controlled value. [See example](https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd)
 
@@ -175,6 +175,7 @@ type CSSOverrides = {
   cursorGrabbing?: CSSProperties['cursor'];
   cursorDisabled?: CSSProperties['cursor'];
   switch?: CSSProperties;
+  switchDisabled?: CSSProperties;
   division?: CSSProperties;
   divisionLine?: CSSProperties;
   label?: CSSProperties;
@@ -186,7 +187,7 @@ With this you can add and/or modify existing CSS properties of different element
 <hr>
 
 ### callback (required)
-type: *(currentValue: string) => unknown*
+type: *(currentValue: OptionValue) => unknown*
 
 A callback which is fired when user selects an option either by using drag or just clicking on needed option. 
 

@@ -42,6 +42,10 @@ export default createUseStyles<string, JSSProps>(
       boxSizing: 'border-box',
     }),
 
+    switchDisabledOverride: ({ cssOverrides }) => ({
+      ...cssOverrides.switchDisabled,
+    }),
+
     draggable: {
       position: 'absolute',
       zIndex: 1,
@@ -94,6 +98,7 @@ export default createUseStyles<string, JSSProps>(
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      cursor: 'pointer',
     },
 
     division: {
@@ -102,15 +107,6 @@ export default createUseStyles<string, JSSProps>(
       width: DEFAULT_DIVISION_POINT_SIZE,
       height: DEFAULT_DIVISION_POINT_SIZE,
       cursor: 'pointer',
-      '&:after': {
-        top: '50%',
-        left: '50%',
-        transform: 'translate3d(-50%, -50%, 0)',
-        position: 'absolute',
-        content: '""',
-        width: ({ switchSize }: { switchSize: number }) => switchSize,
-        height: ({ switchSize }: { switchSize: number }) => switchSize,
-      },
     },
 
     divisionPrimary: {

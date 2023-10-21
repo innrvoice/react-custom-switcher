@@ -211,7 +211,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     setInitialXCoord(event.touches[0].clientX);
   };
 
-  const findColor = (value: string, options: CustomSwitcherOption[]) => {
+  const findColor = (value: unknown, options: CustomSwitcherOption<unknown>[]) => {
     const color = options.find((option) => option.value === value)?.color;
     return color;
   };
@@ -242,6 +242,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
               [classes.switchDisabledSecondary]: disabled && variant === 'secondary',
               [classes.defaultDisabledCursor]: disabled || !dragEnabled,
               [classes.switchOverride]: cssOverrides.switch,
+              [classes.switchDisabledOverride]: disabled && cssOverrides.switchDisabled,
             })}
             style={{
               transform: isDragging ? `scale(${determineScale(scaleWhileDrag)})` : 'scale(1)',
@@ -268,7 +269,12 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                 key={`key-${option.value}-${index}`}
                 style={{
                   transform: `translate3d(calc(${index * DIVISION_LENGTH}px - 50%), -50%, 0)`,
-                }}>
+                }}
+                onPointerDown={
+                  !disabled && option.value !== currentValue
+                    ? (event) => handleDivisionPointerDown(index, event)
+                    : undefined
+                }>
                 <div
                   className={clsx(classes.division, {
                     [classes.divisionPrimary]: variant === 'primary',
@@ -277,9 +283,6 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                     [classes.divisionOverride]: cssOverrides.division,
                     [classes.disabledCursor]: disabled && cssOverrides.cursorDisabled,
                   })}
-                  onPointerDown={
-                    !disabled ? (event) => handleDivisionPointerDown(index, event) : undefined
-                  }
                 />
                 {option.label && (
                   <div
