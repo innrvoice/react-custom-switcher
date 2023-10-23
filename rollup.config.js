@@ -14,6 +14,8 @@ export default {
       file: pkg.module,
       globals: {
         react: 'React',
+        'react-jss': 'ReactJss',
+        clsx: 'clsx',
       },
     },
     {
@@ -22,6 +24,8 @@ export default {
       name: pkg.name,
       globals: {
         react: 'React',
+        'react-jss': 'ReactJss',
+        clsx: 'clsx',
       },
     },
   ],
@@ -37,5 +41,5 @@ export default {
     }),
     terser(),
   ],
-  external: ['react'],
+  external: ['react', 'react-jss', 'clsx'],
 };
