@@ -65,10 +65,7 @@ export const checkIfMobileOrTablet = () => {
   return false;
 };
 
-export const disableScroll = (
-  isMobileOrTablet: boolean,
-  setSelectBodyStyles: ({ height, overflow }: { height: string; overflow: string }) => void,
-) => {
+export const disableScroll = (className: string, isMobileOrTablet: boolean) => {
   if (isMobileOrTablet) {
     const overflow = document.body.style.overflow;
     const height = document.body.style.height;
@@ -78,10 +75,7 @@ export const disableScroll = (
   }
 };
 
-export const enableScroll = (
-  isMobileOrTablet: boolean,
-  selectBodyStyles: { height: string; overflow: string },
-) => {
+export const enableScroll = (className: string, isMobileOrTablet: boolean) => {
   if (isMobileOrTablet) {
     document.body.style.overflow = selectBodyStyles.overflow;
     document.body.style.height = selectBodyStyles.height;
