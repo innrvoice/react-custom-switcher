@@ -1,7 +1,6 @@
 import React from 'react';
-import useStyles from './CustomSwitcher.styles';
 import { DEFAULT_SCALE_WHILE_DRAG } from './CustomSwitcher.constants';
-import clsx from 'clsx';
+import { styles } from './CustomSwitcher.styles';
 import {
   determineColor,
   determineScale,
@@ -25,13 +24,17 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   cssOverrides = {},
   callback,
 }) => {
-  const actualSwitchSize = determineSwitchSize(switchSize, variant);
+  const actualSwitchSize = React.useMemo(
+    () => determineSwitchSize(switchSize, variant),
+    [switchSize, variant],
+  );
   const isMobileOrTablet = React.useMemo(() => checkIfMobileOrTablet(), []);
-  const classes = useStyles({
-    switchSize: actualSwitchSize,
-    containerWidth,
-    cssOverrides,
-  });
+
+  const switcherStyles = React.useMemo(
+    () => styles({ containerWidth, switchSize: actualSwitchSize, cssOverrides }),
+    [containerWidth, actualSwitchSize, cssOverrides],
+  );
+
   const constraintsRef = React.useRef<HTMLDivElement>(null);
   const draggableRef = React.useRef<HTMLDivElement>(null);
 
@@ -42,6 +45,11 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   const [initialXCoord, setInitialXCoord] = React.useState<number | undefined>();
   const [translate, setTranslate] = React.useState(0);
   const [initialPosition, setInitialPosition] = React.useState(0);
+
+  const [selectBodyStyles, setSelectBodyStyles] = React.useState({
+    height: document.body.style.height,
+    overflow: document.body.style.overflow,
+  });
 
   const DIVISION_LENGTH = (containerWidth - actualSwitchSize) / (options.length - 1);
 
@@ -90,7 +98,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   React.useEffect(() => {
     const listener = (event: PointerEvent) => {
       if (event.relatedTarget == null) {
-        enableScroll(classes.stopScrolling, isMobileOrTablet);
+        enableScroll(isMobileOrTablet, selectBodyStyles);
         const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
         setInitialPosition(division * DIVISION_LENGTH);
         handleDragEnd(division);
@@ -103,20 +111,13 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     }
 
     return () => document.removeEventListener('pointerout', listener);
-  }, [
-    translate,
-    DIVISION_LENGTH,
-    handleDragEnd,
-    dragEnabled,
-    isMobileOrTablet,
-    classes.stopScrolling,
-  ]);
+  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet, selectBodyStyles]);
 
   React.useEffect(() => {
     const listener = () => {
       const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
       setTranslate(division * DIVISION_LENGTH);
-      enableScroll(classes.stopScrolling, isMobileOrTablet);
+      enableScroll(isMobileOrTablet, selectBodyStyles);
       setInitialPosition(division * DIVISION_LENGTH);
       handleDragEnd(division);
       setIsDragging(false);
@@ -134,14 +135,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       document.body.removeEventListener('touchend', listener);
       document.body.removeEventListener('pointerup', listener);
     };
-  }, [
-    translate,
-    DIVISION_LENGTH,
-    handleDragEnd,
-    dragEnabled,
-    isMobileOrTablet,
-    classes.stopScrolling,
-  ]);
+  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet, selectBodyStyles]);
 
   React.useEffect(() => {
     const touchMoveListener = (event: TouchEvent) => {
@@ -200,13 +194,13 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   ]);
 
   const handlePointerDown = (event: React.PointerEvent) => {
-    disableScroll(classes.stopScrolling, isMobileOrTablet);
+    disableScroll(isMobileOrTablet, setSelectBodyStyles);
     setIsDragging(true);
     setInitialXCoord(event.clientX);
   };
 
   const handleTouchStart = (event: React.TouchEvent) => {
-    disableScroll(classes.stopScrolling, isMobileOrTablet);
+    disableScroll(isMobileOrTablet, setSelectBodyStyles);
     setIsDragging(true);
     setInitialXCoord(event.touches[0].clientX);
   };
@@ -217,16 +211,15 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.container} ref={constraintsRef}>
+    <div style={switcherStyles.root}>
+      <div style={switcherStyles.container} ref={constraintsRef}>
         <div
-          className={clsx(classes.draggable, {
-            [classes.transition]: transitionEnabled,
-          })}
-          ref={draggableRef}
           style={{
+            ...switcherStyles.draggable,
+            ...(transitionEnabled ? { ...switcherStyles.transition } : undefined),
             transform: `translateX(${translate}px)`,
           }}
+          ref={draggableRef}
           onPointerDown={
             !isMobileOrTablet && !disabled && dragEnabled ? handlePointerDown : undefined
           }
@@ -234,17 +227,24 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
             isMobileOrTablet && !disabled && dragEnabled ? handleTouchStart : undefined
           }>
           <div
-            className={clsx(classes.switch, {
-              [classes.switchPrimary]: variant === 'primary',
-              [classes.switchSecondary]: variant === 'secondary',
-              [classes.grabbing]: isDragging,
-              [classes.switchDisabledPrimary]: disabled && variant === 'primary',
-              [classes.switchDisabledSecondary]: disabled && variant === 'secondary',
-              [classes.defaultDisabledCursor]: disabled || !dragEnabled,
-              [classes.switchOverride]: cssOverrides.switch,
-              [classes.switchDisabledOverride]: disabled && cssOverrides.switchDisabled,
-            })}
             style={{
+              ...switcherStyles.switch,
+              ...(variant === 'primary' ? { ...switcherStyles.switchPrimary } : undefined),
+              ...(variant === 'secondary' ? { ...switcherStyles.switchSecondary } : undefined),
+              ...(isDragging ? { ...switcherStyles.grabbing } : undefined),
+              ...(disabled && variant === 'primary'
+                ? { ...switcherStyles.switchDisabledPrimary }
+                : undefined),
+              ...(disabled && variant === 'secondary'
+                ? { ...switcherStyles.switchDisabledSecondary }
+                : undefined),
+              ...(disabled && cssOverrides.switchDisabled
+                ? { ...switcherStyles.switchDisabled }
+                : undefined),
+              ...(disabled || !dragEnabled
+                ? { ...switcherStyles.defaultDisabledCursor }
+                : undefined),
+              ...switcherStyles.switchOverride,
               transform: isDragging ? `scale(${determineScale(scaleWhileDrag)})` : 'scale(1)',
               ...(variant === 'primary'
                 ? { backgroundColor: determineColor(findColor(currentValue, options), disabled) }
@@ -255,19 +255,21 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
             }}
           />
         </div>
-        <div className={classes.divisionsWrap}>
+        <div style={switcherStyles.divisionsWrap}>
           <div
-            className={clsx(classes.divLine, {
-              [classes.divLineSecondary]: variant === 'secondary',
-              [classes.divLineOverride]: cssOverrides.divisionLine,
-            })}
+            style={{
+              ...switcherStyles.divLine,
+              ...(variant === 'secondary' ? { ...switcherStyles.divLineSecondary } : undefined),
+              ...switcherStyles.divLineOverride,
+            }}
           />
           {options.map((option, index) => {
             return (
               <div
-                className={classes.divWrap}
                 key={`key-${option.value}-${index}`}
                 style={{
+                  ...switcherStyles.divWrap,
+                  ...switcherStyles.defaultCursor,
                   transform: `translate3d(calc(${index * DIVISION_LENGTH}px - 50%), -50%, 0)`,
                 }}
                 onPointerDown={
@@ -276,27 +278,37 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                     : undefined
                 }>
                 <div
-                  className={clsx(classes.division, {
-                    [classes.divisionPrimary]: variant === 'primary',
-                    [classes.defaultCursor]: cssOverrides.cursorDefault,
-                    [classes.defaultDisabledCursor]: disabled && !cssOverrides.cursorDisabled,
-                    [classes.divisionOverride]: cssOverrides.division,
-                    [classes.disabledCursor]: disabled && cssOverrides.cursorDisabled,
-                  })}
+                  style={{
+                    ...switcherStyles.division,
+                    ...(variant === 'primary' ? { ...switcherStyles.divisionPrimary } : undefined),
+                    ...(disabled && !cssOverrides.cursorDisabled
+                      ? { ...switcherStyles.defaultDisabledCursor }
+                      : undefined),
+                    ...switcherStyles.divisionOverride,
+                    ...(disabled && cssOverrides.cursorDisabled
+                      ? { ...switcherStyles.disabledCursor }
+                      : undefined),
+                  }}
                 />
                 {option.label && (
                   <div
-                    className={clsx(classes.label, {
-                      [classes.labelPrimary]: variant === 'primary',
-                      [classes.labelSecondary]: variant === 'secondary',
-                      [classes.defaultCursor]: cssOverrides.cursorDefault,
-                      [classes.labelOverride]: cssOverrides.label,
-                      [classes.labelDisabled]: disabled,
-                      [classes.defaultDisabledCursor]:
-                        !cssOverrides.cursorDisabled && (disabled || currentValue === option.value),
-                      [classes.disabledCursor]:
-                        cssOverrides.cursorDisabled && (disabled || currentValue === option.value),
-                    })}
+                    style={{
+                      ...switcherStyles.label,
+                      ...(variant === 'primary' ? { ...switcherStyles.labelPrimary } : undefined),
+                      ...(variant === 'secondary'
+                        ? { ...switcherStyles.labelSecondary }
+                        : undefined),
+                      ...switcherStyles.defaultCursor,
+                      ...switcherStyles.labelOverride,
+                      ...(disabled ? { ...switcherStyles.labelDisabled } : undefined),
+                      ...(!cssOverrides.cursorDisabled &&
+                      (disabled || currentValue === option.value)
+                        ? { ...switcherStyles.defaultDisabledCursor }
+                        : undefined),
+                      ...(cssOverrides.cursorDisabled && (disabled || currentValue === option.value)
+                        ? { ...switcherStyles.disabledCursor }
+                        : undefined),
+                    }}
                     onPointerDown={
                       !disabled ? (event) => handleDivisionPointerDown(index, event) : undefined
                     }>

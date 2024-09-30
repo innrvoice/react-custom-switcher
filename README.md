@@ -187,7 +187,7 @@ With this you can add and/or modify existing CSS properties of different element
 <hr>
 
 ### callback (required)
-type: *(currentValue: OptionValue) => unknown*
+type: *(currentValue: string) => unknown*
 
 A callback which is fired when user selects an option either by using drag or just clicking on needed option. 
 
@@ -202,6 +202,3 @@ A callback which is fired when user selects an option either by using drag or ju
 - [IOS-like Switcher](https://codesandbox.io/s/react-custom-switcher-ios-like-switcher-customisation-example-gsg82w)
 - [Material UI-like Switcher](https://codesandbox.io/s/react-custom-switcher-material-ui-like-switcher-customisation-example-8t5csm)
 - [Extended customization demo](https://codesandbox.io/s/react-custom-switcher-extended-customisation-demo-6h5ygd)
-
-
-
