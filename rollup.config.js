@@ -1,7 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import commonJS from '@rollup/plugin-commonjs';
-import { nodeExternals } from 'rollup-plugin-node-externals';
+import nodeExternals from 'rollup-plugin-node-externals';
 import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json' assert { type: 'json' };
 
@@ -14,8 +14,6 @@ export default {
       file: pkg.module,
       globals: {
         react: 'React',
-        'react-jss': 'ReactJss',
-        clsx: 'clsx',
       },
     },
     {
@@ -24,8 +22,6 @@ export default {
       name: pkg.name,
       globals: {
         react: 'React',
-        'react-jss': 'ReactJss',
-        clsx: 'clsx',
       },
     },
   ],
@@ -41,5 +37,5 @@ export default {
     }),
     terser(),
   ],
-  external: ['react', 'react-jss', 'clsx'],
+  external: ['react'],
 };
