@@ -65,19 +65,28 @@ export const checkIfMobileOrTablet = () => {
   return false;
 };
 
-export const disableScroll = (className: string, isMobileOrTablet: boolean) => {
+export const disableScroll = (
+  isMobileOrTablet: boolean,
+  setSelectBodyStyles: ({ height, overflow }: { height: string; overflow: string }) => void,
+) => {
   if (isMobileOrTablet) {
-    const overflow = document.body.style.overflow;
-    const height = document.body.style.height;
-    setSelectBodyStyles({ height, overflow });
-    document.body.style.overflow = 'hidden';
-    document.body.style.height = '100%';
+    // document.body.classList.add(className);
   }
+  const overflow = document.body.style.overflow;
+  const height = document.body.style.height;
+  setSelectBodyStyles({ height, overflow });
+  document.body.style.overflow = 'hidden';
+  document.body.style.height = '100%';
+  document.body.style.background = 'red';
 };
 
-export const enableScroll = (className: string, isMobileOrTablet: boolean) => {
+export const enableScroll = (
+  isMobileOrTablet: boolean,
+  selectBodyStyles: { height: string; overflow: string },
+) => {
   if (isMobileOrTablet) {
-    document.body.style.overflow = selectBodyStyles.overflow;
-    document.body.style.height = selectBodyStyles.height;
+    // document.body.classList.remove(className);
   }
+  document.body.style.overflow = selectBodyStyles.overflow;
+  document.body.style.height = selectBodyStyles.height;
 };

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "license": "MIT",
   "author": "innrVoice <innrvoice@icloud.com>",
   "repository": {
@@ -20,10 +20,6 @@
     "lint": "eslint --ignore-pattern '*.d.ts' --ignore-pattern '*.test.*' --ext ts,tsx src",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
-  },
-  "dependencies": {
-    "clsx": "^2.0.0",
-    "react-jss": "^10.10.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
