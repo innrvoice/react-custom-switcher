@@ -244,7 +244,6 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
               ...(disabled || !dragEnabled
                 ? { ...switcherStyles.defaultDisabledCursor }
                 : undefined),
-              ...switcherStyles.switchOverride,
               transform: isDragging ? `scale(${determineScale(scaleWhileDrag)})` : 'scale(1)',
               ...(variant === 'primary'
                 ? { backgroundColor: determineColor(findColor(currentValue, options), disabled) }
@@ -252,6 +251,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
               ...(variant === 'secondary'
                 ? { borderColor: determineColor(findColor(currentValue, options), disabled) }
                 : undefined),
+              ...switcherStyles.switchOverride,
             }}
           />
         </div>
