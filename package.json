@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "license": "MIT",
   "author": "innrVoice <innrvoice@icloud.com>",
   "repository": {
@@ -75,8 +75,11 @@
   "files": [
     "lib"
   ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "volta": {
-    "node": "18.20.4"
+    "node": "20.19.0"
   },
   "resolutions": {
     "jackspeak": "2.1.1"
