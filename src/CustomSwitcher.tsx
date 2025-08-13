@@ -126,6 +126,8 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     if (dragEnabled) {
       if (isMobileOrTablet) {
         document.body.addEventListener('touchend', listener);
+        // Add touchcancel for mobile reliability
+        document.body.addEventListener('touchcancel', listener);
       } else {
         document.body.addEventListener('pointerup', listener);
       }
@@ -133,6 +135,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
 
     return () => {
       document.body.removeEventListener('touchend', listener);
+      document.body.removeEventListener('touchcancel', listener);
       document.body.removeEventListener('pointerup', listener);
     };
   }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet, selectBodyStyles]);
@@ -171,7 +174,9 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     if (dragEnabled) {
       if (isDragging) {
         if (isMobileOrTablet) {
-          document.body.addEventListener('touchmove', touchMoveListener);
+          document.body.addEventListener('touchmove', touchMoveListener, {
+            passive: false,
+          });
         } else {
           document.body.addEventListener('pointermove', pointerMoveListener);
         }
@@ -200,6 +205,8 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   };
 
   const handleTouchStart = (event: React.TouchEvent) => {
+    // Prevent default to stop scrolling and other touch behaviors
+    event.preventDefault();
     disableScroll(isMobileOrTablet, setSelectBodyStyles);
     setIsDragging(true);
     setInitialXCoord(event.touches[0].clientX);
@@ -218,6 +225,8 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
             ...switcherStyles.draggable,
             ...(transitionEnabled ? { ...switcherStyles.transition } : undefined),
             transform: `translateX(${translate}px)`,
+            // Add touch-action to prevent browser interference on mobile
+            touchAction: dragEnabled && !disabled ? 'none' : 'auto',
           }}
           ref={draggableRef}
           onPointerDown={
@@ -246,10 +255,14 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                 : undefined),
               transform: isDragging ? `scale(${determineScale(scaleWhileDrag)})` : 'scale(1)',
               ...(variant === 'primary'
-                ? { backgroundColor: determineColor(findColor(currentValue, options), disabled) }
+                ? {
+                    backgroundColor: determineColor(findColor(currentValue, options), disabled),
+                  }
                 : undefined),
               ...(variant === 'secondary'
-                ? { borderColor: determineColor(findColor(currentValue, options), disabled) }
+                ? {
+                    borderColor: determineColor(findColor(currentValue, options), disabled),
+                  }
                 : undefined),
               ...switcherStyles.switchOverride,
             }}
