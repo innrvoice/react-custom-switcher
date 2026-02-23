@@ -351,11 +351,13 @@ export const IOSLike = IosTemplate.bind({});
 
 // Range Like Example
 
-const optionsRange = new Array(40).fill(undefined).map((_, index) => ({
-  value: `${index}`,
-  color: '#b336ff',
-  label: <span />,
-}));
+const optionsRange = Array.from({ length: 40 })
+  .fill(undefined)
+  .map((_, index) => ({
+    value: `${index}`,
+    color: '#b336ff',
+    label: <span />,
+  }));
 
 optionsRange[0].label = <span>MIN</span>;
 optionsRange[9].label = <div style={{ backgroundColor: '#bbb', width: 1, height: 10 }} />;
