@@ -1,22 +1,22 @@
 import * as React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import type { Meta, StoryFn } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
 import { CustomSwitcher } from './CustomSwitcher';
 
 export default {
   title: 'Basic Variants/Primary',
   component: CustomSwitcher,
+
   parameters: {
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'dark', value: '#111111' },
-      ],
+      options: {
+        light: { name: 'light', value: '#FFFFFF' },
+        dark: { name: 'dark', value: '#111111' },
+      },
     },
-    layout: 'fullscreen',
   },
+
   decorators: [
     (Story) => (
       <div
@@ -73,7 +73,7 @@ Primary.args = {
   containerWidth: 300,
   value: optionsPrimary[2].value,
   dragEnabled: true,
-  callback: action('callback'),
+  callback: fn(),
 };
 
 export const PrimaryDisabled = Template.bind({});
@@ -84,5 +84,5 @@ PrimaryDisabled.args = {
   containerWidth: 300,
   value: optionsPrimary[2].value,
   dragEnabled: true,
-  callback: action('callback'),
+  callback: fn(),
 };

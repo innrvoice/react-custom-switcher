@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import type { Meta, StoryFn } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
 import { CustomSwitcher } from './CustomSwitcher';
 import { CSSOverrides } from './CustomSwitcher.types';
@@ -8,16 +8,16 @@ import { CSSOverrides } from './CustomSwitcher.types';
 export default {
   title: 'Customization/Variants',
   component: CustomSwitcher,
+
   parameters: {
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'dark', value: '#111111' },
-      ],
+      options: {
+        light: { name: 'light', value: '#FFFFFF' },
+        dark: { name: 'dark', value: '#111111' },
+      },
     },
-    layout: 'fullscreen',
   },
+
   decorators: [
     (Story) => (
       <div
@@ -89,7 +89,7 @@ Emojis.args = {
   variant: 'secondary',
   containerWidth: 250,
   value: 'hm',
-  callback: action('callback'),
+  callback: fn(),
 };
 
 // Tip Example
@@ -171,7 +171,7 @@ Tip.args = {
   switchSize: 40,
   value: '0',
   cssOverrides: tipCSSOverrides,
-  callback: action('callback'),
+  callback: fn(),
   scaleWhileDrag: false,
 };
 
@@ -240,7 +240,7 @@ Impressions.args = {
   switchSize: 50,
   value: '100',
   cssOverrides: impressionsCSSOverrides,
-  callback: action('callback'),
+  callback: fn(),
 };
 
 // Material UI Like Example
@@ -278,7 +278,7 @@ MaterialUILike.args = {
   switchSize: 30,
   value: 'on',
   cssOverrides: muiCSSOverrides,
-  callback: action('callback'),
+  callback: fn(),
 };
 
 // IOS Like Example
@@ -383,5 +383,5 @@ RangeLike.args = {
   switchSize: 15,
   value: '0',
   cssOverrides: rangeCSSOverrides,
-  callback: action('callback'),
+  callback: fn(),
 };

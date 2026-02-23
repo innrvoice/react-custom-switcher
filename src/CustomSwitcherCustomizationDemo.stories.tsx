@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react-vite';
 
 import { CustomSwitcher } from './CustomSwitcher';
 import { CSSOverrides } from './CustomSwitcher.types';
@@ -20,22 +20,23 @@ import pauseIcon from './assets/pause.svg';
 export default {
   title: 'Customization/Demo',
   component: CustomSwitcher,
+
   parameters: {
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'dark', value: '#111111' },
-      ],
+      options: {
+        light: { name: 'light', value: '#FFFFFF' },
+        dark: { name: 'dark', value: '#111111' },
+      },
     },
     layout: 'fullscreen',
   },
+
   decorators: [
     (Story) => (
       <div
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: '100%',
+          height: '100%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

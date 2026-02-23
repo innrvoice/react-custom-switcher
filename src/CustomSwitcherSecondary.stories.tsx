@@ -1,22 +1,22 @@
 import * as React from 'react';
-import { Meta, StoryFn } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import type { Meta, StoryFn } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
 import { CustomSwitcher } from './CustomSwitcher';
 
 export default {
   title: 'Basic Variants/Secondary',
   component: CustomSwitcher,
+
   parameters: {
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#FFFFFF' },
-        { name: 'dark', value: '#111111' },
-      ],
+      options: {
+        light: { name: 'light', value: '#FFFFFF' },
+        dark: { name: 'dark', value: '#111111' },
+      },
     },
-    layout: 'fullscreen',
   },
+
   decorators: [
     (Story) => (
       <div
@@ -73,7 +73,7 @@ Secondary.args = {
   containerWidth: 240,
   value: optionsSecondary[0].value,
   variant: 'secondary',
-  callback: action('callback'),
+  callback: fn(),
 };
 
 export const SecondaryDisabled = Template.bind({});
@@ -84,5 +84,5 @@ SecondaryDisabled.args = {
   value: 'hm',
   disabled: true,
   variant: 'secondary',
-  callback: action('callback'),
+  callback: fn(),
 };

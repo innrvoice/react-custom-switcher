@@ -6,3 +6,5 @@ node_modules
 coverage
 lib
 .DS_Store
+*storybook.log
+storybook-static
