@@ -81,7 +81,7 @@ export const SecondaryDisabled = Template.bind({});
 SecondaryDisabled.args = {
   options: optionsSecondary,
   containerWidth: 240,
-  value: 'hm',
+  value: optionsSecondary[0].value,
   disabled: true,
   variant: 'secondary',
   callback: fn(),

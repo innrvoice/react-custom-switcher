@@ -12,6 +12,19 @@ import {
 } from './CustomSwitcher.utils';
 import { CustomSwitcherOption, ICustomSwitcherProps } from './CustomSwitcher.types';
 
+const warningMessages = new Set<string>();
+
+const warnOnce = (message: string) => {
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    typeof console !== 'undefined' &&
+    !warningMessages.has(message)
+  ) {
+    warningMessages.add(message);
+    console.warn(message);
+  }
+};
+
 export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   options,
   value,
@@ -28,7 +41,10 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     () => determineSwitchSize(switchSize, variant),
     [switchSize, variant],
   );
+  const canUseDOM = typeof document !== 'undefined';
   const isMobileOrTablet = React.useMemo(() => checkIfMobileOrTablet(), []);
+  const hasEnoughOptions = options.length >= 2;
+  const hasOptions = options.length > 0;
 
   const switcherStyles = React.useMemo(
     () => styles({ containerWidth, switchSize: actualSwitchSize, cssOverrides }),
@@ -47,22 +63,62 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
   const [initialPosition, setInitialPosition] = React.useState(0);
 
   const [selectBodyStyles, setSelectBodyStyles] = React.useState({
-    height: document.body.style.height,
-    overflow: document.body.style.overflow,
+    height: '',
+    overflow: '',
   });
 
-  const DIVISION_LENGTH = (containerWidth - actualSwitchSize) / (options.length - 1);
+  const DIVISION_LENGTH = hasEnoughOptions
+    ? (containerWidth - actualSwitchSize) / (options.length - 1)
+    : 0;
+
+  const clampDivision = React.useCallback(
+    (division: number) => {
+      if (!hasOptions) {
+        return 0;
+      }
+
+      return Math.min(Math.max(division, 0), options.length - 1);
+    },
+    [hasOptions, options.length],
+  );
+
+  const getOptionByDivision = React.useCallback(
+    (division: number) => {
+      if (!hasOptions) {
+        return undefined;
+      }
+
+      return options[clampDivision(division)];
+    },
+    [clampDivision, hasOptions, options],
+  );
+
+  const getDivisionFromTranslate = React.useCallback(() => {
+    if (!hasEnoughOptions || DIVISION_LENGTH <= 0) {
+      return 0;
+    }
+
+    return clampDivision(Math.abs(Math.round(translate / DIVISION_LENGTH)));
+  }, [DIVISION_LENGTH, clampDivision, hasEnoughOptions, translate]);
 
   const handleDragEnd = React.useCallback(
     (division: number) => {
-      if (currentValue !== options[division].value) {
-        setCurrentValue(options[division].value);
-        callback(options[division].value);
+      const option = getOptionByDivision(division);
+
+      if (!option) {
+        setTransitionEnabled(true);
+        setIsDragging(false);
+        return;
+      }
+
+      if (currentValue !== option.value) {
+        setCurrentValue(option.value);
+        callback(option.value);
       }
       setTransitionEnabled(true);
       setIsDragging(false);
     },
-    [callback, options, currentValue],
+    [callback, currentValue, getOptionByDivision],
   );
 
   const handleDragStart = React.useCallback(() => {
@@ -74,22 +130,48 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     division: number,
     event: React.PointerEvent<HTMLDivElement>,
   ) => {
+    const option = getOptionByDivision(division);
+
+    if (!option) {
+      return;
+    }
+
     event.stopPropagation();
     setTransitionEnabled(true);
-    if (currentValue !== options[division].value) {
-      setCurrentValue(options[division].value);
-      callback(options[division].value);
+    if (currentValue !== option.value) {
+      setCurrentValue(option.value);
+      callback(option.value);
     }
   };
 
   React.useEffect(() => {
-    const currentValueIndex = options.findIndex((option) => option.value === currentValue);
-
-    if (currentValueIndex >= 0) {
-      setTranslate(DIVISION_LENGTH * currentValueIndex);
-      setInitialPosition(DIVISION_LENGTH * currentValueIndex);
+    if (!hasEnoughOptions) {
+      warnOnce(
+        '[react-custom-switcher] `options` should include at least 2 entries to render a functional switcher.',
+      );
     }
-  }, [currentValue, options, DIVISION_LENGTH]);
+  }, [hasEnoughOptions]);
+
+  React.useEffect(() => {
+    if (hasOptions && !options.some((option) => option.value === value)) {
+      warnOnce(
+        '[react-custom-switcher] The provided `value` does not match any option. The switcher will fall back to the first option position.',
+      );
+    }
+  }, [hasOptions, options, value]);
+
+  React.useEffect(() => {
+    const currentValueIndex = options.findIndex((option) => option.value === currentValue);
+    const safeValueIndex = currentValueIndex >= 0 ? currentValueIndex : 0;
+
+    if (hasOptions) {
+      setTranslate(DIVISION_LENGTH * safeValueIndex);
+      setInitialPosition(DIVISION_LENGTH * safeValueIndex);
+    } else {
+      setTranslate(0);
+      setInitialPosition(0);
+    }
+  }, [currentValue, options, DIVISION_LENGTH, hasOptions]);
 
   React.useEffect(() => {
     setCurrentValue(value);
@@ -99,23 +181,36 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     const listener = (event: PointerEvent) => {
       if (event.relatedTarget == null) {
         enableScroll(isMobileOrTablet, selectBodyStyles);
-        const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
+        const division = getDivisionFromTranslate();
         setInitialPosition(division * DIVISION_LENGTH);
         handleDragEnd(division);
         setIsDragging(false);
       }
     };
 
-    if (dragEnabled) {
+    if (canUseDOM && dragEnabled && hasEnoughOptions) {
       document.addEventListener('pointerout', listener);
     }
 
-    return () => document.removeEventListener('pointerout', listener);
-  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet, selectBodyStyles]);
+    return () => {
+      if (canUseDOM) {
+        document.removeEventListener('pointerout', listener);
+      }
+    };
+  }, [
+    DIVISION_LENGTH,
+    canUseDOM,
+    dragEnabled,
+    getDivisionFromTranslate,
+    handleDragEnd,
+    hasEnoughOptions,
+    isMobileOrTablet,
+    selectBodyStyles,
+  ]);
 
   React.useEffect(() => {
     const listener = () => {
-      const division = Math.abs(Math.round(translate / DIVISION_LENGTH));
+      const division = getDivisionFromTranslate();
       setTranslate(division * DIVISION_LENGTH);
       enableScroll(isMobileOrTablet, selectBodyStyles);
       setInitialPosition(division * DIVISION_LENGTH);
@@ -123,7 +218,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       setIsDragging(false);
     };
 
-    if (dragEnabled) {
+    if (canUseDOM && dragEnabled && hasEnoughOptions) {
       if (isMobileOrTablet) {
         document.body.addEventListener('touchend', listener);
         // Add touchcancel for mobile reliability
@@ -138,14 +233,27 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       document.body.removeEventListener('touchcancel', listener);
       document.body.removeEventListener('pointerup', listener);
     };
-  }, [translate, DIVISION_LENGTH, handleDragEnd, dragEnabled, isMobileOrTablet, selectBodyStyles]);
+  }, [
+    DIVISION_LENGTH,
+    canUseDOM,
+    dragEnabled,
+    getDivisionFromTranslate,
+    handleDragEnd,
+    hasEnoughOptions,
+    isMobileOrTablet,
+    selectBodyStyles,
+  ]);
 
   React.useEffect(() => {
     const touchMoveListener = (event: TouchEvent) => {
+      if (initialXCoord == null) {
+        return;
+      }
+
       event.preventDefault();
       handleDragStart();
       if (draggableRef.current && constraintsRef.current) {
-        const translate = initialPosition + (event.touches[0].clientX - initialXCoord!);
+        const translate = initialPosition + (event.touches[0].clientX - initialXCoord);
         setTranslate(
           applyConstraints(
             translate,
@@ -157,10 +265,14 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     };
 
     const pointerMoveListener = (event: PointerEvent) => {
+      if (initialXCoord == null) {
+        return;
+      }
+
       event.preventDefault();
       handleDragStart();
       if (draggableRef.current && constraintsRef.current) {
-        const translate = initialPosition + (event.clientX - initialXCoord!);
+        const translate = initialPosition + (event.clientX - initialXCoord);
         setTranslate(
           applyConstraints(
             translate,
@@ -171,7 +283,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
       }
     };
 
-    if (dragEnabled) {
+    if (canUseDOM && dragEnabled && hasEnoughOptions) {
       if (isDragging) {
         if (isMobileOrTablet) {
           document.body.addEventListener('touchmove', touchMoveListener, {
@@ -184,15 +296,19 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
     }
 
     return () => {
-      document.body.removeEventListener('touchmove', touchMoveListener);
-      document.body.removeEventListener('pointermove', pointerMoveListener);
+      if (canUseDOM) {
+        document.body.removeEventListener('touchmove', touchMoveListener);
+        document.body.removeEventListener('pointermove', pointerMoveListener);
+      }
     };
   }, [
+    canUseDOM,
     isDragging,
     constraintsRef,
     draggableRef,
     dragEnabled,
     handleDragStart,
+    hasEnoughOptions,
     initialPosition,
     initialXCoord,
     isMobileOrTablet,
@@ -226,14 +342,18 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
             ...(transitionEnabled ? { ...switcherStyles.transition } : undefined),
             transform: `translateX(${translate}px)`,
             // Add touch-action to prevent browser interference on mobile
-            touchAction: dragEnabled && !disabled ? 'none' : 'auto',
+            touchAction: dragEnabled && !disabled && hasEnoughOptions ? 'none' : 'auto',
           }}
           ref={draggableRef}
           onPointerDown={
-            !isMobileOrTablet && !disabled && dragEnabled ? handlePointerDown : undefined
+            !isMobileOrTablet && !disabled && dragEnabled && hasEnoughOptions
+              ? handlePointerDown
+              : undefined
           }
           onTouchStart={
-            isMobileOrTablet && !disabled && dragEnabled ? handleTouchStart : undefined
+            isMobileOrTablet && !disabled && dragEnabled && hasEnoughOptions
+              ? handleTouchStart
+              : undefined
           }>
           <div
             style={{
@@ -286,7 +406,7 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                   transform: `translate3d(calc(${index * DIVISION_LENGTH}px - 50%), -50%, 0)`,
                 }}
                 onPointerDown={
-                  !disabled && option.value !== currentValue
+                  !disabled && hasEnoughOptions && option.value !== currentValue
                     ? (event) => handleDivisionPointerDown(index, event)
                     : undefined
                 }>
@@ -323,7 +443,9 @@ export const CustomSwitcher: React.FC<ICustomSwitcherProps> = ({
                         : undefined),
                     }}
                     onPointerDown={
-                      !disabled ? (event) => handleDivisionPointerDown(index, event) : undefined
+                      !disabled && hasEnoughOptions
+                        ? (event) => handleDivisionPointerDown(index, event)
+                        : undefined
                     }>
                     {option.label}
                   </div>

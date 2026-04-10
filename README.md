@@ -27,24 +27,24 @@ import React from 'react';
 import { CustomSwitcher } from 'react-custom-switcher';
 
 export const CustomSwitcherExample: React.FC = () => {
-    return (
-        <CustomSwitcher
-            options={[
-                {
-                    value: 'off',
-                    label: 'OFF,
-                },
-                {
-                    value: 'on',
-                    label: 'ON',
-                }
-            ]}
-            value={'off'}
-            containerSize={300}
-            callback={(currentValue: string) => console.log(currentValue)}
-        >
-    )
-}
+  return (
+    <CustomSwitcher
+      options={[
+        {
+          value: 'off',
+          label: 'OFF',
+        },
+        {
+          value: 'on',
+          label: 'ON',
+        },
+      ]}
+      value={'off'}
+      containerWidth={300}
+      callback={(currentValue: string) => console.log(currentValue)}
+    />
+  );
+};
 ```
 
 ## API
