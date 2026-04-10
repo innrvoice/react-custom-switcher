@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import commonJS from '@rollup/plugin-commonjs';
 import nodeExternals from 'rollup-plugin-node-externals';
@@ -15,6 +15,7 @@ export default {
     {
       format: 'es',
       file: pkg.module,
+      sourcemap: true,
       globals: {
         react: 'React',
       },
@@ -23,6 +24,7 @@ export default {
       format: 'umd',
       file: pkg.main,
       name: pkg.name,
+      sourcemap: true,
       globals: {
         react: 'React',
       },
@@ -34,9 +36,8 @@ export default {
     resolve(),
     commonJS(),
     typescript({
-      tsconfigOverride: {
-        exclude: ['**/*.test.ts', '**/*.stories.tsx'],
-      },
+      tsconfig: './tsconfig.json',
+      exclude: ['**/*.test.ts', '**/*.stories.tsx'],
     }),
     terser(),
   ],

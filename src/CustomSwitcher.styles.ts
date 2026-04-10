@@ -170,7 +170,7 @@ export const styles = ({
     },
 
     defaultDisabledCursor: {
-      cursor: 'default !important',
+      cursor: 'default',
     },
 
     stopScrolling: {
