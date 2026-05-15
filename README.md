@@ -1,5 +1,13 @@
 # react-custom-switcher
 
+> **Migration notice**
+>
+> `react-custom-switcher` remains available for existing projects. New development has moved to [`react-segmented-choice`](https://www.npmjs.com/package/react-segmented-choice).
+>
+> `react-segmented-choice` is the modern package: the same core idea, with the newer API, accessibility and styling direction.
+>
+> For new projects, use `react-segmented-choice`.
+
 <p align="center">
     <img src="https://github.com/innrvoice/files/blob/main/react-custom-switcher/custom-switcher.png?raw=true" />
 </p>

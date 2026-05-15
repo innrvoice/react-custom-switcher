@@ -1,13 +1,14 @@
 {
   "name": "react-custom-switcher",
   "type": "module",
-  "description": "Multi-option Switch/Toggle component for React with dragging, snap and customizable UI",
+  "description": "Legacy React multi-option Switch/Toggle component. New development has moved to react-segmented-choice.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "typings": "lib/index.d.ts",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "author": "innrVoice <innrvoice@icloud.com>",
+  "homepage": "https://github.com/innrvoice/react-custom-switcher#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/innrvoice/react-custom-switcher.git"
